@@ -3,7 +3,6 @@ title = "Containers: A Means to an End, Not the End-All-Be-All"
 date = 2026-06-22T00:00:00Z
 draft = false
 tags = ["containers", "docker", "kubernetes", "architecture", "infrastructure"]
-flashNew = true   # home-list gold "New!" badge + pulse; cleared a week after publish
 summary = "Containers solve a real, specific problem — and somewhere along the way we started treating them as the answer to every question. Here's the problem they actually fix, where they earn their keep, and when reaching for them is just cargo cult with a YAML accent."
 [cover]
   image = "img/containers-cover.png"
@@ -61,7 +60,7 @@ A few patterns I keep running into (in my own work, to be clear):
 
 None of these are *wrong* the way a bug is wrong. They're wrong the way wearing
 a tuxedo to change your oil is wrong. The tool is fine. The match between the
-tool and the job is the problem — and "everyone containerizes everything" is
+tool and the job is the problem, and "everyone containerizes everything" is
 not a match, it's a habit.
 
 ## The test I actually use
@@ -119,8 +118,8 @@ antipattern. And it's not a free one. It costs you on two ledgers at once:
   a slice of a node (or a whole node it half-uses), maybe its own load balancer,
   its share of the control plane and the logging/metrics pipeline behind it. Ten
   services that each idle at 4% don't cost you 4% — they cost you ten reserved
-  seats at the table. I spent a chunk of my career on AWS cost optimization —
-  FinOps work that clawed back seven figures — and I've watched a Kubernetes
+  seats at the table. I spent a chunk of my career on AWS cost optimization,
+  FinOps work that clawed back seven figures, and I've watched a Kubernetes
   bill quietly lap the actual compute it was doing. Overprovisioning isn't
   hypothetical; it's a line item I've gone hunting for.
 - **Manpower.** This is the one that gets underestimated. Every image is a

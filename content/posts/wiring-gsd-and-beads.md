@@ -3,7 +3,6 @@ title = "Building Cairn: Wiring GSD, Beads, and Context-Mode Together"
 date = 2026-06-19T00:00:00Z
 draft = false
 tags = ["claude", "tooling", "beads", "gsd", "cairn", "context-mode", "workflow"]
-flashUpdated = true   # home-list "Updated" badge + pulse; clear when no longer fresh
 summary = "How working with Claude reshaped my workflow, the two plugins I can't work without, and the plugin I built — now called Cairn — to make them, every issue tracker I touch, and my context-mode memory agree on one source of truth."
 +++
 
@@ -28,7 +27,7 @@ The shift wasn't that it writes code for me — it's that the *unit of work*
 changed. I stopped thinking in keystrokes and started thinking in intent. I
 describe what I want, Claude drafts it, I review and steer, and the loop is
 fast enough that I stay in flow instead of context-switching into a dozen
-tools. Speed went up, but more importantly the *friction* went down — the
+tools. Speed went up, but more importantly the *friction* went down... the
 tax I used to pay just to keep a project organized mostly disappeared.
 
 As I leaned in, I started exploring the plugin ecosystem. Most plugins are
@@ -39,7 +38,7 @@ I needed both because I'm working solo right now. There's no team to hold the
 shape of a project in their heads, no standup to surface what's half-finished,
 no second set of eyes to catch the thread I dropped three days ago. When you're
 the only one on a project, *you* are the single point of failure for keeping it
-all straight — the plan, the open work, the decisions you made and why. That's
+all straight: the plan, the open work, the decisions you made and why. That's
 exactly the kind of bookkeeping that quietly eats a solo developer alive. I
 didn't want a manager; I wanted the structure a good team gives you, without
 the team. Beads became my memory for the work, and GSD became the discipline
@@ -151,7 +150,7 @@ Each tool is a small **adapter** behind a uniform contract, so adding a new
 tracker (Linear, Trello, whatever) is one file plus a config block — no changes
 to the core. Five ship today: GitHub, GitLab, Jira, Asana, and Azure Boards.
 
-Configuration lives in a committed `sync.json`, and — this matters — it only
+Configuration lives in a committed `sync.json`, and (this matters) it only
 ever stores the **names** of the environment variables that hold your API
 tokens. No secrets on disk, ever:
 
@@ -254,7 +253,7 @@ architecturally blind: it decides what to keep by size and age, not by what the
 work actually needs. It'll just as happily surface a stale log as the one
 compiler error that explains the bug in front of you.
 
-Cairn already knew two things context-mode didn't — which Beads issue is active,
+Cairn already knew two things context-mode didn't: which Beads issue is active,
 and which GSD phase you're in. So I wired them together. Now the compressed
 memory is **scoped to intent**:
 
@@ -300,7 +299,7 @@ one command does the rest:
 
 While I was in there, context-mode graduated from an opt-in extra to a
 **default**. Intent-aware memory used to be a per-repo switch; now it's just on.
-The whole triad — plan, work, memory — comes alive the moment Cairn is installed.
+The whole triad (plan, work, memory) comes alive the moment Cairn is installed.
 
 ### One door in: the `/cairn:` interface
 
@@ -337,7 +336,7 @@ Every requirement became a Beads ticket across three phases, with real
 dependencies — you can't stand up the load balancer before the network, security
 groups, and database exist, and Beads knows it. Each ticket is mirrored to a
 public GitHub repo's Issues, carrying its phase label, so the hub-and-spoke sync
-isn't a diagram in a blog post — it's ten live issues you can click.
+isn't a diagram in a blog post, it's ten live issues you can click.
 
 - **The repo:** [github.com/BigJiggity/wedding-register](https://github.com/BigJiggity/wedding-register)
 - **The walkthrough:** [`HOWTO-CAIRN.md`](https://github.com/BigJiggity/wedding-register/blob/main/HOWTO-CAIRN.md) — the exact commands, start to ship.
@@ -367,7 +366,7 @@ whether it's just you out there or the whole crew.
 
 The whole reason Claude changed my workflow is that it removed friction between
 *intent* and *done*. GSD and Beads each remove a different slice of that
-friction. Wiring them together — and out to wherever my collaborators
-actually live — removed the last bit I was still paying by hand.
+friction. Wiring them together, and out to wherever my collaborators
+actually live, removed the last bit I was still paying by hand.
 
 Opinions converge over time. So, apparently, do issue trackers.
