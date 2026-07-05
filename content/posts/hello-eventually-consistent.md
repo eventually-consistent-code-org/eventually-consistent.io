@@ -17,7 +17,7 @@ systems joke. It's the actual shape of the work — given enough time and enough
 writes, the nodes converge. Opinions do too. So, it turns out, does good
 engineering.
 
-This is where I write up what I build and the tech worth explaining —
+This is where I write up what I build and the tech worth explaining:
 cryptography, distributed systems, infrastructure-as-code, and the agentic
 tooling I now lean on every day. That last part is the throughline: after nearly
 three decades doing this by hand, I'm all-in on building *with* AI — not as a
