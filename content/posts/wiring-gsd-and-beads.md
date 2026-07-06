@@ -7,7 +7,7 @@ summary = "How working with Claude reshaped my workflow, the two plugins I can't
 +++
 
 > **Update — June 2026:** Since I first wrote this, the plugin got a real name —
-> **[Cairn](https://github.com/BigJiggity/claude-plugins)** — and a third
+> **[Cairn](https://github.com/eventually-consistent-code/claude-plugins)** — and a third
 > integration: it now makes [context-mode](https://github.com/mksglu/context-mode)'s
 > memory *intent-aware*, not just GSD and Beads. The walkthrough below is the
 > original; skip to [**Update: meet Cairn**](#update-meet-cairn) for what's new.
@@ -174,15 +174,15 @@ own. When someone edits an issue on their end, a single `pull` brings it home.
 
 The plugin is open source (MIT) and lives here:
 
-- **GitHub:** [github.com/BigJiggity/claude-plugins](https://github.com/BigJiggity/claude-plugins)
+- **GitHub:** [github.com/eventually-consistent-code/claude-plugins](https://github.com/eventually-consistent-code/claude-plugins)
   (the `cairn` plugin under `cairn/` — see the update below on the rename)
 
 Install it as a Claude Code marketplace:
 
 ```text
-/plugin marketplace add BigJiggity/claude-plugins
+/plugin marketplace add eventually-consistent-code/claude-plugins
 /plugin marketplace add mksglu/context-mode    # cairn pulls context-mode from here
-/plugin install cairn@bigjiggity               # GSD + context-mode install with it
+/plugin install cairn@eventually-consistent-code               # GSD + context-mode install with it
 ```
 
 > Installing Cairn now brings GSD and context-mode along automatically (they're
@@ -193,7 +193,7 @@ Install it as a Claude Code marketplace:
 
 Full docs — architecture, the reconciliation algorithm, per-tool setup, and the
 adapter contract for adding your own — are in
-[`docs/sync.md`](https://github.com/BigJiggity/claude-plugins/blob/main/cairn/docs/sync.md).
+[`docs/sync.md`](https://github.com/eventually-consistent-code/claude-plugins/blob/main/cairn/docs/sync.md).
 
 ## It works solo — and it scales to a team
 
@@ -241,7 +241,7 @@ marker; the metaphor wrote itself. The install id, the commands, and the state
 dir moved with it:
 
 ```text
-/plugin install cairn@bigjiggity
+/plugin install cairn@eventually-consistent-code
 /cairn:init        # was /gsd-beads:init
 ```
 
@@ -275,7 +275,7 @@ opt in per repo, scope by label, never delete.
 
 The full write-up of the memory layer — the convention, the capability
 boundaries, and an honest list of what context-mode can and can't do — is in
-[`docs/context.md`](https://github.com/BigJiggity/claude-plugins/blob/main/cairn/docs/context.md).
+[`docs/context.md`](https://github.com/eventually-consistent-code/claude-plugins/blob/main/cairn/docs/context.md).
 
 ## Update: batteries included, one door in
 
@@ -293,7 +293,7 @@ one command does the rest:
 
 ```text
 /plugin marketplace add mksglu/context-mode   # one-time: where context-mode lives
-/plugin install cairn@bigjiggity              # GSD + context-mode come with it
+/plugin install cairn@eventually-consistent-code              # GSD + context-mode come with it
 /cairn:init                                   # git + beads + first project, soup to nuts
 ```
 
@@ -338,8 +338,8 @@ groups, and database exist, and Beads knows it. Each ticket is mirrored to a
 public GitHub repo's Issues, carrying its phase label, so the hub-and-spoke sync
 isn't a diagram in a blog post, it's ten live issues you can click.
 
-- **The repo:** [github.com/BigJiggity/wedding-register](https://github.com/BigJiggity/wedding-register)
-- **The walkthrough:** [`HOWTO-CAIRN.md`](https://github.com/BigJiggity/wedding-register/blob/main/HOWTO-CAIRN.md) — the exact commands, start to ship.
+- **The repo:** [github.com/eventually-consistent-code/wedding-register](https://github.com/eventually-consistent-code/wedding-register)
+- **The walkthrough:** [`HOWTO-CAIRN.md`](https://github.com/eventually-consistent-code/wedding-register/blob/main/HOWTO-CAIRN.md) — the exact commands, start to ship.
 
 ### So what does this actually buy you?
 

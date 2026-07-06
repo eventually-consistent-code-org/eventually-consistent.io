@@ -28,7 +28,7 @@ you what that looks like up close, the wins and the faceplants both.
 
 - **Project write-ups** — what I built, why, and what broke.
 - **Deep dives** — Zen & the art of technology, people and tech, architecture, IaC patterns, other nerdery.
-- **Tooling** — the small things that make the work faster (including plugins I've shipped, like [Cairn](https://github.com/BigJiggity/claude-plugins)).
+- **Tooling** — the small things that make the work faster (including plugins I've shipped, like [Cairn](https://github.com/eventually-consistent-code/claude-plugins)).
 
 ## It supports the things I need
 

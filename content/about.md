@@ -23,9 +23,9 @@ on real infrastructure, not demos.
 Right now I'm heads-down on the fun stuff: blockchain, zero-knowledge
 cryptography, compliance-driven Terraform, and the agentic tooling that keeps it
 all moving, some of which I've open-sourced (see
-[Cairn](https://github.com/BigJiggity/claude-plugins)). This blog is where I
+[Cairn](https://github.com/eventually-consistent-code/claude-plugins)). This blog is where I
 write up what I build, why I built it that way, and what broke along the road.
 
-- GitHub: [@BigJiggity](https://github.com/BigJiggity)
+- GitHub: [@eventually-consistent-code](https://github.com/eventually-consistent-code)
 
 More to come...

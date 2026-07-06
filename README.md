@@ -30,7 +30,7 @@ site and deploys it to Pages. No manual build step.
 
 ```bash
 brew install hugo        # extended version (PaperMod needs it)
-git clone --recurse-submodules git@github.com:BigJiggity/eventually-consistent.io.git
+git clone --recurse-submodules git@github.com:eventually-consistent-code/eventually-consistent.io.git
 # already cloned without submodules?
 git submodule update --init --recursive
 ```
@@ -49,12 +49,12 @@ git submodule update --init --recursive
 ## Custom domain (optional)
 
 The site currently publishes at
-`https://bigjiggity.github.io/eventually-consistent.io/`. To use
+`https://eventually-consistent-code.github.io/eventually-consistent.io/`. To use
 `eventually-consistent.io`:
 
 1. Add `static/CNAME` containing `eventually-consistent.io`.
 2. Point DNS at GitHub Pages (A/AAAA records or a `CNAME` to
-   `bigjiggity.github.io`).
+   `eventually-consistent-code.github.io`).
 3. Set the custom domain in repo **Settings → Pages**.
 4. Update `baseURL` in `hugo.toml` to `https://eventually-consistent.io/`.
 

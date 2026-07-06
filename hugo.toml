@@ -56,7 +56,7 @@ The name is a distributed-systems joke and a posture: opinions here converge ove
 
   [[params.socialIcons]]
     name = "github"
-    url = "https://github.com/BigJiggity"
+    url = "https://github.com/eventually-consistent-code"
   [[params.socialIcons]]
     name = "rss"
     url = "index.xml"
