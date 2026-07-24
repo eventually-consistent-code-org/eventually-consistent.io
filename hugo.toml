@@ -22,6 +22,8 @@ paginate = 10
 
 [params]
   env = "production"
+  # Home feed lists posts only — new sections (e.g. /projects/) stay out of it.
+  mainSections = ["posts"]
   description = "Writing on cryptography, distributed systems, infrastructure, and agentic tooling."
   author = "John Reed"
   keywords = ["cryptography", "zero-knowledge", "blockchain", "distributed systems", "infrastructure as code", "Terraform", "AWS", "Azure", "Claude Code", "AI-assisted development", "DevOps"]
@@ -85,6 +87,11 @@ The name is a distributed-systems joke and a posture: opinions here converge ove
     name = "Posts"
     url = "/posts/"
     weight = 10
+  [[menu.main]]
+    identifier = "projects"
+    name = "Projects"
+    url = "/projects/"
+    weight = 15
   [[menu.main]]
     identifier = "tags"
     name = "Tags"
