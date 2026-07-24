@@ -104,6 +104,7 @@ is good at its job, and the footnotes carry the nuance.
 | Goal-backward verification + drift gate | ✓ | partial⁵ | — | — |
 | Multi-project workspaces | ✓ | ⁶ | — | — |
 | Persistent debug/spike/design sessions | ✓ | — | — | — |
+| Docs publishing to the team wiki (Confluence) | ✓⁸ | — | — | — |
 | Context-window economy | — | — | — | ✓⁷ |
 
 ¹ GSD shipped one-way GitHub sync after sustained user demand
@@ -131,6 +132,10 @@ no-open-issues gates, and an append-only ledger tying issues to commits.
 [#1241](https://github.com/gsd-build/get-shit-done/issues/1241),
 [#2033](https://github.com/gsd-build/get-shit-done/issues/2033)).
 ⁷ Its actual job, and it's good at it — see the verdict below.
+⁸ `/cairn:docs publish` — folder-per-project, README as landing page,
+generated TOC, full child-page tree, idempotent re-publish; pluggable SPI
+with Notion/GitBook/Slite/SharePoint as planned adapters. Its first live
+run published cairn's own 43-page doc tree.
 
 ## Shipped here, requested there
 
