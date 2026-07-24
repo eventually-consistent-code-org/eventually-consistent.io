@@ -1,7 +1,7 @@
 +++
 title = "Cairn"
 date = 2026-07-24T00:00:00Z
-draft = true
+draft = false
 tags = ["claude-code", "agentic-tooling", "project-management", "developer-tooling"]
 summary = "A Claude Code plugin that plans your project, mirrors every piece of work to your real issue tracker, remembers what it learned, and verifies what it shipped — one verb set instead of a stack of point tools."
 repo = "https://github.com/eventually-consistent-code/cairn2"
