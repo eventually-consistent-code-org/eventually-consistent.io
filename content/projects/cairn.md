@@ -209,3 +209,7 @@ One plugin, one verb set, shared state by construction: close an issue and
 the ledger records it, verify a phase and drift goes quiet, learn a lesson
 in retro and recall serves it next session. Fewer tools isn't the point.
 Fewer seams is…
+
+Ready to try it? The [quick-start](/projects/cairn-quickstart/) goes from
+install to a tracker-mirrored first project in about fifteen minutes —
+including every step that happens outside Claude.

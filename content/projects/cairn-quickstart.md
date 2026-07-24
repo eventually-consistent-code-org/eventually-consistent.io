@@ -116,3 +116,25 @@ Watch the issues as `work` runs: claim comments with base commits, progress
 notes at real milestones, close comments with commit ranges and test
 evidence. The paper trail writes itself — because if it isn't in the
 tracker, it didn't happen…
+
+## The rest of the loadout
+
+Cairn plays well with others — here's what actually runs alongside it in my
+own sessions, and one line on why each earns the slot:
+
+- **[superpowers](https://github.com/obra/superpowers)** — process
+  discipline as skills: brainstorming before building, systematic debugging
+  before guessing, TDD before "trust me."
+- **[context-mode](https://github.com/mksglu/context-mode)** — context-window
+  economy: heavy command output and file analysis stay in a sandbox instead
+  of eating your session. The one job cairn deliberately doesn't do.
+- **caveman** — token-diet output modes; the agent talks like a smart
+  caveman and your budget thanks you.
+- **remember** — lightweight session history that survives `/clear`;
+  cheap insurance alongside cairn's own continuity.
+- **[context7](https://context7.com)** — live library documentation on
+  demand, so the agent stops confidently citing an API from two majors ago.
+
+None of them are required. All of them compound — cairn owns the plan, the
+tracker, and the memory; these keep the process sharp and the context
+lean…
