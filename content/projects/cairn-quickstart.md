@@ -14,7 +14,8 @@ doesn't. Fifteen minutes, start to finish, and the finish line is a real
 project: plan in git, issues in your tracker, agent ready to work.
 
 If you haven't read [the cairn overview](/projects/cairn/) yet, start there
-for the why. This page is the how…
+for the why. This page is the how — and the code lives at
+[github.com/eventually-consistent-code/cairn2](https://github.com/eventually-consistent-code/cairn2)…
 
 ## Step 1 — install the plugin
 

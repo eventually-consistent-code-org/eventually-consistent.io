@@ -25,6 +25,9 @@ runtime dependencies.
 The name is the point. A cairn is a stack of stones that marks the trail for
 whoever comes next — including future you, who has forgotten everything…
 
+The code is public:
+[github.com/eventually-consistent-code/cairn2](https://github.com/eventually-consistent-code/cairn2).
+
 ## The lifecycle in five commands
 
 ```
