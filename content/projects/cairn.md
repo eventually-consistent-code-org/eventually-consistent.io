@@ -99,3 +99,45 @@ dispatch board, `peers` convenes external AI CLIs as reviewers with an
 outbound leak guard, and an engineer mode turns the agent from a solo
 performer into a pairing partner — it stops at genuine design forks, hands
 you the trade-offs, and never merges its own PRs.
+
+## Why not just use the stack?
+
+Fair question — I did, for a long time. The stack was GSD for planning, beads
+for issue tracking, and context-mode for context economy, and each one is
+genuinely good at its job. Cairn exists because running them together taught
+me where the seams are.
+
+**vs GSD.** GSD got phase planning right: roadmap, locked context, plans as
+markdown that outlives the chat. Cairn keeps that whole shape — the depth
+dial, the research-first phases, the goal-backward verification are GSD ideas
+grown up. What GSD never had is everything after the plan: no tracker of its
+own, no memory, no verification gate that pushes back. It writes an excellent
+plan and then trusts the world to follow it. Cairn writes the plan and then
+mirrors it, executes it, and audits it with the same verb set.
+
+**vs beads.** beads is an honest little issue tracker — a local database with
+dependencies, labels, and a clean CLI. But it's *its own* tracker, which
+means your work items live in a `.beads/` directory nobody else at the
+company looks at, and connecting them to the plan takes a hand-maintained map
+file per phase. Cairn skips the middleman: your issues live in GitHub, Jira,
+GitLab, Asana, Azure Boards, or ClickUp — the tracker your team already
+reads — and the plan-to-issue wiring is written by tools, validated on every
+change, with drift detection when reality and plan disagree.
+
+**vs context-mode.** context-mode protects your context window — sandboxed
+execution, an indexed knowledge base, session memory you can search. For
+what it does, it's excellent, and honestly? It still earns a slot next to
+cairn. But its memory is a retrieval index: it remembers what was *said*, not
+what is *true*. Cairn's memory cards carry provenance — which file, which
+commit, which decision — and get flagged stale when their source moves. One
+is a transcript with great search; the other is a fact base that admits when
+it's out of date.
+
+**The real argument is cohesion.** Three point tools means three configs, two
+precedence rules, one map file you update by hand, and zero shared state —
+the planner doesn't know what the tracker knows, and neither knows what
+memory knows. Cairn is one plugin where the plan, the issues, the memory,
+and the verification gate share state by construction: close an issue and
+the ledger records it, verify a phase and drift goes quiet, learn a lesson
+in retro and recall serves it next session. Fewer tools isn't the point.
+Fewer seams is…
