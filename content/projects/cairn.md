@@ -18,8 +18,9 @@ Cairn fixes that. It's a Claude Code plugin that gives an agent what a real
 project needs: a plan that lives in git, work items that live in your actual
 tracker, memory that survives the session, and a verification gate that
 refuses to call something done because closing the issue was easier than
-testing it. 36 verbs, 63 typed MCP tools, six tracker backends, 495 passing
-tests, three runtime dependencies.
+testing it. 36 verbs, 63 typed MCP tools, six tracker backends — GitHub,
+GitLab, Jira, Asana, Azure Boards, ClickUp — 495 passing tests, three
+runtime dependencies.
 
 The name is the point. A cairn is a stack of stones that marks the trail for
 whoever comes next — including future you, who has forgotten everything…
