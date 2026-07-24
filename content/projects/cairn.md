@@ -18,8 +18,8 @@ Cairn fixes that. It's a Claude Code plugin that gives an agent what a real
 project needs: a plan that lives in git, work items that live in your actual
 tracker, memory that survives the session, and a verification gate that
 refuses to call something done because closing the issue was easier than
-testing it. 36 verbs, 63 typed MCP tools, six tracker backends — GitHub,
-GitLab, Jira, Asana, Azure Boards, ClickUp — 495 passing tests, three
+testing it. 37 verbs, 65 typed MCP tools, six tracker backends — GitHub,
+GitLab, Jira, Asana, Azure Boards, ClickUp — 555 passing tests, three
 runtime dependencies.
 
 The name is the point. A cairn is a stack of stones that marks the trail for
@@ -50,6 +50,15 @@ comments at real milestones, and a close comment with the commit range, test
 evidence, and time spent — logged as a real worklog on backends that support
 it. This page's own Jira issue closed with "hugo builds clean, 0 errors;
 nav order confirmed; time spent: ~15m." Dogfooding is the demo.
+
+**Your docs land where the team already reads.** `/cairn:docs publish`
+mirrors the repo's README and `docs/` folder into Confluence: a folder named
+for the project, the README as its landing page with a generated table of
+contents, and the whole doc tree as child pages underneath. Re-publishing
+updates pages in place — never duplicates. The connector interface is
+pluggable, so Notion, GitBook, Slite, and SharePoint can follow behind the
+same contract; and yes, the feature's first live run published cairn's own
+43-page doc tree.
 
 **Your PM edits an issue; cairn notices.** `plan_tracker_delta` diffs the
 live tracker against a cursor: new issues, edited bodies, state changes made
