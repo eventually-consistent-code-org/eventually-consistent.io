@@ -14,130 +14,197 @@ brilliant for an afternoon and amnesiac by morning. The plan lived in a chat
 scrollback. The issue tracker your team actually looks at never heard about
 any of it.
 
-That's the problem cairn exists to solve. It's a Claude Code plugin that gives
-an agent the things a real project needs: a plan that lives in git, work items
-that live in your actual tracker, memory that survives the session, and a
-verification gate that refuses to call something done because closing the
-issue was easier than testing it.
+Cairn fixes that. It's a Claude Code plugin that gives an agent what a real
+project needs: a plan that lives in git, work items that live in your actual
+tracker, memory that survives the session, and a verification gate that
+refuses to call something done because closing the issue was easier than
+testing it. 36 verbs, 63 typed MCP tools, six tracker backends, 495 passing
+tests, three runtime dependencies.
 
 The name is the point. A cairn is a stack of stones that marks the trail for
 whoever comes next — including future you, who has forgotten everything…
 
-## The lifecycle
+## The lifecycle in five commands
 
-You start with `/cairn:new`. It interviews you — what are you building, what
-does done look like — and writes the answers down where they can't evaporate:
-a `PROJECT.md` with requirements, a roadmap of phases, a context file per
-phase for decisions that get locked. Then it mirrors the whole thing into
-your tracker. Phases become epics or milestones, requirements become issues,
-and from that moment the tracker your manager reads and the plan the agent
-executes are the same thing.
+```
+/cairn:new       interview → PROJECT.md, roadmap, phases → mirrored to your tracker
+/cairn:plan 2    research the phase, write the task breakdown, reconcile drift
+/cairn:work 2    claim issues, do the work, close on verified done
+/cairn:verify 2  goal-backward check: does the code deliver what the phase promised?
+/cairn:ship      refuses unless drift-clean and every verified phase is closed out
+```
 
-`/cairn:plan N` researches a phase before touching it — how deep is a dial
-you control, from "just draft the tasks" to a parallel research fan-out with
-an adversarial plan-checker pass. `/cairn:work N` claims each issue, does the
-work, comments progress as it lands, and closes on verified done — tests
-passing, behavior confirmed, never "the gate wanted it closed."
-`/cairn:verify N` then walks the phase backwards from the goal: not "did the
-tasks close" but "does the codebase deliver what the phase promised." Only
-then does `/cairn:ship` push — and it refuses if the plan and tracker have
-drifted apart.
+Phases become epics or milestones. Requirements become issues. From the first
+command, the tracker your manager reads and the plan the agent executes are
+the same thing.
 
-Thirty-six verbs total, and they cover the unglamorous parts too: `trace` for
-debugging sessions that persist evidence and hypotheses, `probe` for
-throwaway spikes with recorded verdicts, `retro` for lessons that become
-memory instead of vibes, `medic` when the planning directory itself needs a
-doctor. All of it backed by 63 typed MCP tools on a small local server —
-three runtime dependencies, 495 passing tests.
+## What that looks like in practice
 
-## The tracker is not an afterthought
+**Your tracker gets a paper trail, not a paste-dump.** When cairn works an
+issue, the issue shows it: a claim comment with the base commit, progress
+comments at real milestones, and a close comment with the commit range, test
+evidence, and time spent — logged as a real worklog on backends that support
+it. This page's own Jira issue closed with "hugo builds clean, 0 errors;
+nav order confirmed; time spent: ~15m." Dogfooding is the demo.
 
-Most agent tooling treats your issue tracker as a place to eventually paste a
-summary. Cairn treats it as a first-class mirror: six backends — GitHub,
-GitLab, Jira, Asana, Azure Boards, ClickUp — behind one normalized interface,
-with one contract test suite every adapter has to pass.
+**Your PM edits an issue; cairn notices.** `plan_tracker_delta` diffs the
+live tracker against a cursor: new issues, edited bodies, state changes made
+outside the session. `/cairn:resync` ingests them instead of discovering
+them mid-flight. Planning tools that only push are half a mirror.
 
-The mirroring runs both directions. Everything the agent does leaves a paper
-trail a manager can read: claim comments with base commits, progress comments
-at real milestones, close comments with commit ranges, test evidence, and
-time spent — logged as an actual worklog on backends that support it. And
-when your PM edits an issue or drops a new one in the backlog, `resync`
-ingests the delta instead of discovering it the hard way.
+**Memory admits when it's out of date.** `/cairn:remember` writes a
+git-committed card — one fact, with provenance: which file, which commit,
+which decision produced it. When the source moves, `/cairn:recall` serves it
+flagged STALE instead of confidently reciting fiction. The rule is blunt:
+memory can be wrong; it can never silently lie.
 
-One rule keeps the whole thing sane: on conflict, the git plan docs win over
-tracker issue text. The agent updates the issue with a dated note — it never
-silently follows a stale ticket, and it never silently ignores one either.
+**Debugging is a session, not a scrollback.** `/cairn:trace` opens a
+persistent evidence → hypothesis → test session, mirrored to a tracker issue
+so the investigation is visible work, not invisible flailing. It survives
+`/clear`. So do `probe` (throwaway spikes with recorded verdicts), `draft`
+(design variants), and `thread` (long-running context).
 
-## Memory that can be wrong but can never lie
+**Verification walks backwards from the goal.** Not "did the tasks close" —
+"does the codebase deliver what the phase promised." Five-axis code review,
+audit modes for UAT, security, and UI fidelity, and an append-only ledger of
+what shipped in which commits. A failed verify is a failed verify; *fail
+loud, never fake state* is a design principle, not a slogan.
 
-Cairn's memory has two tiers. Tier one is a disposable full-text index that
-lives outside your repo — fast recall, zero ceremony. Tier two is the one
-that matters: git-committed memory cards, one fact each, with provenance —
-which file, which commit, which decision produced it. When the source a card
-points at moves or changes, recall flags it STALE instead of confidently
-reciting fiction. The design rule is blunt: memory can be wrong; it can never
-silently lie.
+**It scales past one repo.** `basecamp` runs multi-project workspaces with a
+dispatch board. `peers` convenes external AI CLIs as reviewers behind an
+outbound leak guard. Engineer mode turns the agent into a pairing partner —
+it stops at genuine design forks, hands you the trade-offs, and never merges
+its own PRs.
 
-Continuity gets the same treatment. Session handoffs survive `/clear`,
-compaction, and crashes; `waypoint` pauses a session and resumes it days
-later; threads keep long-running context alive across restarts. The agent
-you talk to tomorrow knows what the one you talked to today was doing…
+## The matrix
 
-## The parts nobody markets
+The honest version, not the checkbox-farming version — each of these tools
+is good at its job, and the footnotes carry the nuance.
 
-Verification is where agent work usually falls apart, so cairn is strict
-there: goal-backward phase checks, a five-axis code review verb, audit modes
-for UAT, security, UI fidelity, and test quality, and an append-only ledger
-recording what shipped, in which commits, closing which issue. Failure is
-reported honestly — a failed verify is a failed verify, and the design
-principle underneath it all is *fail loud, never fake state*. Errors surface
-as typed codes with a next action, never a stack trace, and one backend being
-down never blocks git-side work.
+| Capability | cairn | GSD | beads | context-mode |
+|---|---|---|---|---|
+| Phase planning with research depth control | ✓ | ✓ | — | — |
+| Tracker mirroring — six backends, both directions | ✓ | partial¹ | partial² | — |
+| Comment + worklog paper trail on issues | ✓ | — | —³ | — |
+| Inbound PM-delta ingest (tracker edits flow back) | ✓ | — | — | — |
+| Memory with provenance + staleness flags | ✓ | — | — | partial⁴ |
+| Goal-backward verification + drift gate | ✓ | partial⁵ | — | — |
+| Multi-project workspaces | ✓ | ⁶ | — | — |
+| Persistent debug/spike/design sessions | ✓ | — | — | — |
+| Context-window economy | — | — | — | ✓⁷ |
 
-It scales past one repo, too: `basecamp` runs multi-project workspaces with a
-dispatch board, `peers` convenes external AI CLIs as reviewers with an
-outbound leak guard, and an engineer mode turns the agent from a solo
-performer into a pairing partner — it stops at genuine design forks, hands
-you the trade-offs, and never merges its own PRs.
+¹ GSD shipped one-way GitHub sync after sustained user demand
+([#2191](https://github.com/gsd-build/get-shit-done/issues/2191)); one
+backend, push only.
+² beads syncs to GitHub/GitLab/Jira, but its own tracker reports fidelity
+gaps — comments don't sync
+([#4452](https://github.com/gastownhall/beads/issues/4452)), IDs and
+dependencies get lost
+([#4307](https://github.com/gastownhall/beads/issues/4307)) — and a
+plugin-based tracker integration architecture was closed *not planned*
+([#1150](https://github.com/gastownhall/beads/issues/1150)).
+³ Work-time tracking was requested and closed *not planned*
+([#965](https://github.com/gastownhall/beads/issues/965)).
+⁴ context-mode indexes and recalls, but staleness is its open wound: stale
+cross-session memory outranking fresh captures is an open issue
+([#895](https://github.com/mksglu/context-mode/issues/895)); silent
+index-staleness needed a fix
+([#317](https://github.com/mksglu/context-mode/issues/317)).
+⁵ GSD has a verifier; cairn adds the tracker cross-check — drift detection,
+no-open-issues gates, and an append-only ledger tying issues to commits.
+⁶ Requested at least four separate times
+([#108](https://github.com/gsd-build/get-shit-done/issues/108),
+[#648](https://github.com/gsd-build/get-shit-done/issues/648),
+[#1241](https://github.com/gsd-build/get-shit-done/issues/1241),
+[#2033](https://github.com/gsd-build/get-shit-done/issues/2033)).
+⁷ Its actual job, and it's good at it — see the verdict below.
 
-## Why not just use the stack?
+## Shipped here, requested there
 
-Fair question — I did, for a long time. The stack was GSD for planning, beads
-for issue tracking, and context-mode for context economy, and each one is
-genuinely good at its job. Cairn exists because running them together taught
-me where the seams are.
+The matrix rows aren't hypothetical gaps — they're things users of each tool
+asked for, in public, often more than once. A sampling, straight from their
+own trackers:
 
-**vs GSD.** GSD got phase planning right: roadmap, locked context, plans as
-markdown that outlives the chat. Cairn keeps that whole shape — the depth
-dial, the research-first phases, the goal-backward verification are GSD ideas
-grown up. What GSD never had is everything after the plan: no tracker of its
-own, no memory, no verification gate that pushes back. It writes an excellent
-plan and then trusts the world to follow it. Cairn writes the plan and then
-mirrors it, executes it, and audits it with the same verb set.
+**What beads users asked for:**
 
-**vs beads.** beads is an honest little issue tracker — a local database with
-dependencies, labels, and a clean CLI. But it's *its own* tracker, which
-means your work items live in a `.beads/` directory nobody else at the
-company looks at, and connecting them to the plan takes a hand-maintained map
-file per phase. Cairn skips the middleman: your issues live in GitHub, Jira,
-GitLab, Asana, Azure Boards, or ClickUp — the tracker your team already
-reads — and the plan-to-issue wiring is written by tools, validated on every
-change, with drift detection when reality and plan disagree.
+- Pluggable tracker integrations — Jira, Azure DevOps, GitLab
+  ([#1150](https://github.com/gastownhall/beads/issues/1150), closed *not
+  planned*) and more backends by name
+  ([Linear](https://github.com/gastownhall/beads/discussions/453), the
+  category's top-voted idea). Cairn: six adapters behind one interface.
+- Work-time tracking
+  ([#965](https://github.com/gastownhall/beads/issues/965), closed *not
+  planned*). Cairn: time logged on every close, real worklogs where the
+  backend supports them.
+- A spec layer above issues
+  ([#240](https://github.com/gastownhall/beads/discussions/240)), human
+  approval gates for enterprise oversight
+  ([#632](https://github.com/gastownhall/beads/discussions/632)), a durable
+  home for accreted decisions
+  ([#611](https://github.com/gastownhall/beads/discussions/611)), and
+  outcome-enforced closes instead of low-information "done"
+  ([#856](https://github.com/gastownhall/beads/discussions/856)). Cairn:
+  phase plans above the tracker, engineer-mode gates, provenance-backed
+  memory cards, and verified-done closes with evidence.
 
-**vs context-mode.** context-mode protects your context window — sandboxed
-execution, an indexed knowledge base, session memory you can search. For
-what it does, it's excellent, and honestly? It still earns a slot next to
-cairn. But its memory is a retrieval index: it remembers what was *said*, not
-what is *true*. Cairn's memory cards carry provenance — which file, which
-commit, which decision — and get flagged stale when their source moves. One
-is a transcript with great search; the other is a fact base that admits when
-it's out of date.
+**What GSD users asked for:**
 
-**The real argument is cohesion.** Three point tools means three configs, two
-precedence rules, one map file you update by hand, and zero shared state —
-the planner doesn't know what the tracker knows, and neither knows what
-memory knows. Cairn is one plugin where the plan, the issues, the memory,
-and the verification gate share state by construction: close an issue and
+- Issue-tracker integration
+  ([#907](https://github.com/gsd-build/get-shit-done/discussions/907)) and
+  plan state visible to "stakeholders, collaborators, and the dev's own
+  memory weeks later"
+  ([#2191](https://github.com/gsd-build/get-shit-done/issues/2191)). Cairn:
+  the bidirectional mirror is the core of the design.
+- Multi-project support, four separate times
+  ([#108](https://github.com/gsd-build/get-shit-done/issues/108),
+  [#648](https://github.com/gsd-build/get-shit-done/issues/648),
+  [#1241](https://github.com/gsd-build/get-shit-done/issues/1241),
+  [#2033](https://github.com/gsd-build/get-shit-done/issues/2033)) — plus
+  parallel session dispatch
+  ([#2621](https://github.com/gsd-build/get-shit-done/discussions/2621),
+  [#3256](https://github.com/gsd-build/get-shit-done/discussions/3256)).
+  Cairn: basecamp workspaces with a dispatch board; wave-parallel work.
+- Retro and lessons that outlive the phase
+  ([#1003](https://github.com/gsd-build/get-shit-done/discussions/1003),
+  [#1873](https://github.com/gsd-build/get-shit-done/issues/1873),
+  [#1680](https://github.com/gsd-build/get-shit-done/issues/1680)),
+  autonomous UAT
+  ([#2290](https://github.com/gsd-build/get-shit-done/discussions/2290)),
+  resync against out-of-band changes
+  ([#944](https://github.com/gsd-build/get-shit-done/discussions/944)), and
+  keeping planning internals out of shipped code
+  ([#2221](https://github.com/gsd-build/get-shit-done/discussions/2221)).
+  Cairn: `retro`, `audit uat`, `resync`, and the leak guard — all verbs, all
+  shipped.
+
+**What context-mode users are living with:**
+
+- Cross-session persistence was asked for early
+  ([#250](https://github.com/mksglu/context-mode/issues/250),
+  [#305](https://github.com/mksglu/context-mode/issues/305) — closed *not
+  planned*), and staleness is the open wound: stale memory outranking fresh
+  work ([#895](https://github.com/mksglu/context-mode/issues/895), open),
+  continuity snapshots silently losing the newest events
+  ([#902](https://github.com/mksglu/context-mode/issues/902)). Cairn's
+  memory cards are cross-session by construction with staleness flags by
+  design, and its checkpoints are explicit durable artifacts — not derived
+  from a buffer that evicts.
+
+## The verdict on the stack
+
+I ran GSD + beads + context-mode together for months, and each one is
+genuinely good. But three point tools means three configs, two precedence
+rules, a hand-maintained map file wiring plans to issues, and zero shared
+state — the planner doesn't know what the tracker knows, and neither knows
+what memory knows.
+
+Cairn keeps GSD's best ideas (the phase shape, the depth dial, goal-backward
+verification), replaces beads with the tracker your team already reads, and
+covers the project-memory slice of context-mode with provenance instead of
+retrieval. context-mode still earns a companion slot for raw context
+economy — that's its job, and cairn doesn't pretend to do it.
+
+One plugin, one verb set, shared state by construction: close an issue and
 the ledger records it, verify a phase and drift goes quiet, learn a lesson
 in retro and recall serves it next session. Fewer tools isn't the point.
 Fewer seams is…
