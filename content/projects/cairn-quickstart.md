@@ -5,6 +5,11 @@ draft = false
 tags = ["claude-code", "agentic-tooling", "tutorial", "developer-tooling"]
 summary = "Zero to a tracker-mirrored project in about fifteen minutes — install cairn, wire up your issue tracker (including every step that happens outside Claude), and run your first phase."
 repo = "https://github.com/eventually-consistent-code/cairn2"
+
+[cover]
+image = "img/cairn-logo-h.jpg"
+alt = "Cairn logo — a stack of colorful glass pebbles"
+hiddenInList = true
 +++
 
 What does it actually take to get an AI agent planning your project in the
