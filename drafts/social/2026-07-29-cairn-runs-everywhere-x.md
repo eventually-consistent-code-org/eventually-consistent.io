@@ -1,9 +1,12 @@
-# X/Twitter — cairn runs everywhere (hold until wave-3 PR merges + site deploys)
+# X/Twitter — cairn UPDATE post (v2, changelog style — posting is John's click)
 
-cairn was a Claude Code plugin. now it runs on Grok, Copilot CLI, Codex, Gemini, Cursor, OpenCode, and Zed too — one installer, same brain.
+cairn update — last 40 hours:
 
-plans in git. work mirrored to your real tracker. memory that survives the session. Cursor even gets the full hooks port.
+▸ runs everywhere: Grok, Copilot CLI, Codex, Gemini, Cursor, OpenCode, Zed — one installer (Cursor gets the full hooks port)
+▸ on npm: npx @eventually-consistent/cairn cairn-setup <harness>
+▸ cost attribution — agent spend lands on real phases/issues
+▸ custom board states, sprints + estimates, image attachments
 
-744 tests. honest capability table, no hand-waving…
+same spine: plans in git, work mirrored to your real tracker, nothing "done" without evidence. 744 tests…
 
 https://github.com/eventually-consistent-code/cairn2
