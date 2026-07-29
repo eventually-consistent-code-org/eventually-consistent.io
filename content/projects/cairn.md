@@ -23,9 +23,9 @@ Cairn fixes that. It's a Claude Code plugin that gives an agent what a real
 project needs: a plan that lives in git, work items that live in your actual
 tracker, memory that survives the session, and a verification gate that
 refuses to call something done because closing the issue was easier than
-testing it. 37 verbs, 70 typed MCP tools, eight tracker backends — GitHub,
+testing it. 37 verbs, 71 typed MCP tools, eight tracker backends — GitHub,
 GitLab, Jira, Asana, Azure Boards, ClickUp, Linear, and a zero-credential
-local tracker that lives in your repo — 698 passing tests, three runtime
+local tracker that lives in your repo — 728 passing tests, three runtime
 dependencies.
 
 The name is the point. A cairn is a stack of stones that marks the trail for
@@ -86,6 +86,26 @@ story points + original time estimates at planning time — then logs real
 worklogs at close. Burndown, velocity, and estimate-vs-actual work with
 data cairn wrote, not fields a human forgot to fill.
 
+**You see what the agent costs, per issue.** Every session's token spend
+gets snapshotted and attributed to the phase and issue that was active —
+so close comments carry "agent cost: ~$4 (approximate)" beside time spent,
+and status rolls spend up by phase. Estimate vs actual vs spend, on the
+board your manager already reads. No other tool in this lane attributes
+agent cost to work items.
+
+**Your board's words, not cairn's.** Issues carry their real workflow
+state — "In Review", "Blocked", whatever your columns actually say —
+with a semantic category underneath so every gate and report still knows
+what counts as done. Custom states are one config line per backend; Jira
+fires your actual transitions, Linear matches your team's workflow states
+by name.
+
+**Evidence attaches where the team looks.** Screenshots and visual
+findings from the UI audits attach to the tracker issue itself (native
+Jira attachments, files-in-repo on the local backend), and images in your
+published docs upload as real Confluence attachments that render inline —
+architecture diagrams included, never broken links.
+
 **Your PM edits an issue; cairn notices.** `plan_tracker_delta` diffs the
 live tracker against a cursor: new issues, edited bodies, state changes made
 outside the session. `/cairn:resync` ingests them instead of discovering
@@ -95,7 +115,11 @@ them mid-flight. Planning tools that only push are half a mirror.
 git-committed card — one fact, with provenance: which file, which commit,
 which decision produced it. When the source moves, `/cairn:recall` serves it
 flagged STALE instead of confidently reciting fiction. The rule is blunt:
-memory can be wrong; it can never silently lie.
+memory can be wrong; it can never silently lie. And it learns while you
+work: a passive observation log quietly notes what each tool call touched
+and whether it errored, and at retro time the real patterns — churn
+hotspots, repeated error-fix loops — get promoted to cards with
+provenance. Nothing enters memory without that review gate.
 
 **Debugging is a session, not a scrollback.** `/cairn:trace` opens a
 persistent evidence → hypothesis → test session, mirrored to a tracker issue
@@ -127,6 +151,8 @@ is good at its job, and the footnotes carry the nuance.
 | Zero-dependency local tracker with dependency graph | ✓ | — | ✓ | — |
 | Local → hosted promotion (full history migration) | ✓ | — | — | — |
 | Sprint + estimate population (real burndown data) | ✓ | — | — | — |
+| Agent cost attributed to issues/phases | ✓ | — | — | — |
+| Custom status vocabulary (your board's real states) | ✓ | — | — | — |
 | Comment + worklog paper trail on issues | ✓ | — | —³ | — |
 | Inbound PM-delta ingest (tracker edits flow back) | ✓ | — | — | — |
 | Memory with provenance + staleness flags | ✓ | — | — | partial⁴ |
@@ -183,7 +209,15 @@ own trackers:
 - Work-time tracking
   ([#965](https://github.com/gastownhall/beads/issues/965), closed *not
   planned*). Cairn: time logged on every close, real worklogs where the
-  backend supports them.
+  backend supports them — and agent cost attributed alongside.
+- Custom status vocabularies
+  ([#345](https://github.com/gastownhall/beads/discussions/345)). Cairn:
+  issues carry your board's real state names with a semantic category
+  underneath; custom states are one config line per backend.
+- Image evidence on issues
+  ([#875](https://github.com/gastownhall/beads/discussions/875)). Cairn:
+  native attachments on Jira, files-in-repo on the local backend, wired
+  into the UI audits.
 - A spec layer above issues
   ([#240](https://github.com/gastownhall/beads/discussions/240)), human
   approval gates for enterprise oversight
