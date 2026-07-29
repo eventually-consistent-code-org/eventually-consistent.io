@@ -48,6 +48,11 @@ Phases become epics or milestones. Requirements become issues. From the first
 command, the tracker your manager reads and the plan the agent executes are
 the same thing.
 
+Here's the whole shape at a glance — every verb touches both lanes at once,
+and the mirror runs in both directions:
+
+![the cairn workflow — git plan artifacts above the verb spine, the tracker paper trail below, with the resync channel running back the other way](/img/cairn-workflow.png)
+
 ## What that looks like in practice
 
 **Your tracker gets a paper trail, not a paste-dump.** When cairn works an
