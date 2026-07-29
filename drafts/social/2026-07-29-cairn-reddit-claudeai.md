@@ -1,28 +1,52 @@
-# r/ClaudeAI draft (posting is John's click)
+# r/ClaudeAI draft v2 (posting is John's click)
 
-**Title:** I built a Claude Code plugin that mirrors everything the agent does to your real issue tracker (Jira/GitHub/Linear/+5) — and refuses to call work "done" without evidence
+Automod-safe shape: NO links in the post body (repo link goes in your own
+first comment after the post is live), no feature-bullet wall, no "check it
+out" phrasing — reads as an experience/discussion post, which is what it is.
+
+**Title:** What finally fixed "brilliant for an afternoon, amnesiac by morning" for me: making the agent live in my actual issue tracker
 
 **Body:**
 
-Like a lot of you, I kept hitting the same wall: Claude Code is brilliant inside a session and amnesiac across them. Plans lived in chat scrollback. My actual Jira board never heard about any of it. And "done" meant "the agent said done."
+I kept hitting the same wall with long-running Claude Code projects. The
+agent plans beautifully, works hard for a session... and then the context
+window rolls over, or I /clear, and the plan is gone. Chat scrollback
+became my project management system. Meanwhile my actual Jira board — the
+one other humans look at — knew nothing.
 
-So I built cairn. The pitch in one line: give the agent what a real project needs — a plan that lives in git, work items in your real tracker, memory that survives the session, and a verification gate with trust issues.
+The fix that stuck for me wasn't better prompting, it was moving the
+source of truth out of the conversation entirely. Everything the agent
+plans or ships gets mirrored to the real tracker as it happens: issues,
+comments, worklogs, estimates. The plan lives in git. When a session dies
+mid-task, the next one picks up from the tracker + a handoff file, not
+from vibes.
 
-What it does:
+The part I underestimated: verification. Agents will absolutely close
+their own tickets because closing is easier than testing. What worked was
+a goal-backward gate — the phase isn't done because issues got closed;
+issues get closed because a verifier walked backward from the goal and
+found evidence. Plus drift detection between what the plan claims and
+what git actually shows.
 
-- **37 verbs** (`/cairn:new`, `plan`, `work`, `verify`, `ship`, `trace`, `retro`, …) over **71 MCP tools**
-- **8 tracker backends** — GitHub, GitLab, Jira, Asana, Azure Boards, ClickUp, Linear, or a zero-credential local tracker committed to your repo. Two-way: PM edits in the tracker flow back into planning
-- **Verified-done**: goal-backward phase checks, drift detection between plan and git reality, and a ship gate that blocks on open issues
-- **Memory with provenance**: lesson cards point at the commits that prove them, get confidence-graded, and get re-graded at retro when reality confirms or contradicts them
-- **Hooks**: session continuity across /clear, a leak guard that blocks commits leaking internal refs, per-phase cost attribution
+The other surprise was memory. Storing "lessons learned" as freeform
+notes rotted fast. What held up: lessons as cards pointing at the exact
+commits that prove them, with a confidence grade that gets re-checked
+later — confirmed lessons grade up, contradicted ones grade down and get
+corrected. Stale memory confidently outranking fresh reality is a real
+failure mode; I've watched other tools in this space wrestle with it.
 
-New this week: it's not Claude-only anymore. One installer wires the same server into Grok Build, Copilot CLI, Codex, Gemini CLI, Cursor (full hooks port), OpenCode, and Zed — though Claude Code remains the richest surface (plugin, slash commands, all hooks).
+I ended up building all this into an open-source plugin (MIT). It also
+turned out the same server runs under Grok, Copilot CLI, Codex, Gemini,
+Cursor, OpenCode, and Zed since the whole thing is just MCP + markdown.
+I'll drop the repo in a comment for anyone who wants to poke at it.
 
-The docs include an honest comparison matrix against GSD, beads, and context-mode — every claim cited to those projects' own issue trackers, and our own gaps documented the same way.
+Curious what others do for this — especially: has anyone found a way to
+trust an agent's self-reported "done" without an independent check? That
+problem shaped basically every design decision here.
 
-MIT, 744 tests, three runtime dependencies.
+**First comment (post after the thread is live):**
 
-Repo: https://github.com/eventually-consistent-code/cairn2
-Write-up: https://eventually-consistent.io/projects/cairn/
-
-Feedback very welcome — especially from anyone who's tried to make an agent's self-reported progress trustworthy. That problem is the whole reason this exists…
+Repo (MIT): https://github.com/eventually-consistent-code/cairn2 — the
+docs include an honest comparison against GSD/beads/context-mode with
+citations to their own issue trackers, and our own gaps documented the
+same way (e.g. cost tracking is Claude Code-only, and the docs say why).
