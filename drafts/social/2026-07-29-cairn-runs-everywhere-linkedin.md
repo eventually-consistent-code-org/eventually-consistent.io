@@ -1,16 +1,24 @@
-# LinkedIn — cairn runs everywhere (hold until wave-3 PR merges + site deploys)
+# LinkedIn — cairn UPDATE post (v2, changelog style — posting is John's click)
 
-Your AI coding agent is brilliant for an afternoon and amnesiac by morning. Cairn fixes that — and as of today, it doesn't care which agent you use.
+**CAIRN UPDATE** — what shipped in the last 40 hours:
 
-Cairn started as a Claude Code plugin: plans that live in git, work items mirrored to your real tracker (Jira, GitHub, Linear, +5 more), memory that survives the session, and a verification gate that won't call something done just because closing the issue was easier than testing it.
+🔹 **Runs everywhere now.** One installer wires cairn into Grok Build, GitHub Copilot CLI, Codex, Gemini CLI, Cursor, OpenCode, and Zed — not just Claude Code. Cursor even gets the full hook layer ported: session continuity, commit leak guard, observation capture. Same scripts, one adapter.
 
-Today it runs on seven more harnesses: Grok Build, GitHub Copilot CLI, Codex, Gemini CLI, Cursor, OpenCode, and Zed. One installer, three thin layers — MCP wiring, a generated AGENTS.md verb registry, and native slash commands where the harness has them. Cursor even gets the full hook layer: continuity resume, a commit leak guard, observation capture — same scripts, one adapter.
+🔹 **On npm.** `npx @eventually-consistent/cairn cairn-setup <harness>` and you're wired. Server publishes with OIDC trusted publishing — no tokens in CI.
 
-The honest part (we keep an honest capability table, not a checkbox farm): the cost tracker stays Claude-only for now, and every per-harness gap is documented rather than hand-waved.
+🔹 **Cost attribution.** Session spend (tokens + $) now lands on the actual phases and issues it was spent on. Your burndown knows what the agent cost.
 
-744 tests. Three runtime dependencies. The tracker paper trail doesn't care which model wrote it…
+🔹 **Custom status vocabularies.** Your board says "In Review" and "Blocked"? Cairn speaks your board's states now across Jira, Linear, ClickUp, Azure, GitHub, and the local tracker — not a hardcoded open/closed.
 
-https://github.com/eventually-consistent-code/cairn2
-https://eventually-consistent.io/projects/cairn/
+🔹 **Sprints + estimates.** Issues land in the active sprint with real estimates — actual burndown data, not a graveyard of unestimated tickets.
+
+🔹 **Image attachments.** Diagrams and screenshots flow through to tracker issues and Confluence pages as native attachments.
+
+🔹 **Passive observation capture.** The agent's surprises get recorded as candidate lessons and reviewed at retro — memory that grows from evidence, not vibes.
+
+Still the same spine underneath: plans in git, every piece of work mirrored to your real tracker, and a verification gate that refuses to call things done without evidence. 744 tests. Honest capability table — the gaps are documented, not hand-waved…
+
+🔗 https://github.com/eventually-consistent-code/cairn2
+📄 https://eventually-consistent.io/projects/cairn/
 
 #AIEngineering #DeveloperTools #MCP #AgenticCoding
