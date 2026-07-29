@@ -46,8 +46,25 @@ bindings for your machine. Do it once, forget it.
 
 ## Step 2 — tell cairn where your tracker lives
 
-Drop a `cairn.json` in your project root. If you use GitHub Issues, the
-whole thing is four lines:
+Don't run a tracker at all? You can skip credentials entirely — cairn
+ships a zero-dependency **local backend** that stores issues as plain
+files in your repo, dependency graph included:
+
+```json
+{
+  "tracker": {
+    "type": "local",
+    "config": { "prefix": "proj" }
+  }
+}
+```
+
+No accounts, no tokens, merge-clean by construction — and when the team
+grows, one `tracker_migrate` command promotes the whole store (history,
+comments, links, estimates) to any hosted backend below.
+
+Otherwise, drop a `cairn.json` in your project root. If you use GitHub
+Issues, the whole thing is four lines:
 
 ```json
 {
@@ -67,7 +84,7 @@ secrets.** If a key or value looks like a credential, the config loader
 throws. Tokens live in environment variables; the config only names *which*
 variable to read. Your tracker config is safe to commit.
 
-### The other five backends
+### The other hosted backends
 
 | Backend | Minimal config | Env var(s) | Where the token comes from |
 |---|---|---|---|
@@ -76,9 +93,10 @@ variable to read. Your tracker config is safe to commit.
 | Asana | `projectGid` | `ASANA_TOKEN` | My Settings → Apps → Personal access tokens |
 | Azure Boards | `orgUrl`, `project` | `AZURE_DEVOPS_PAT` | User settings → Personal access tokens, Work Items scope |
 | ClickUp | `defaultListId` + `folderId` *or* `spaceId` | `CLICKUP_TOKEN` | Settings → Apps → API token |
+| Linear | `teamId` | `LINEAR_API_KEY` | linear.app/settings/api → Personal API keys |
 
 The plugin ships `templates/cairn.json.example` with copy-paste blocks for
-all six. For Jira, the `transitions` map deserves a sentence: it names your
+all eight. For Jira, the `transitions` map deserves a sentence: it names your
 workflow's transition labels (say, "In Progress" and "Done") so cairn can
 move issues through *your* board instead of guessing. Export the env vars
 in your shell profile — `export JIRA_EMAIL=you@company.com` and friends —

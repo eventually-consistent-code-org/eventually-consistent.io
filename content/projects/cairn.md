@@ -23,9 +23,10 @@ Cairn fixes that. It's a Claude Code plugin that gives an agent what a real
 project needs: a plan that lives in git, work items that live in your actual
 tracker, memory that survives the session, and a verification gate that
 refuses to call something done because closing the issue was easier than
-testing it. 37 verbs, 65 typed MCP tools, six tracker backends — GitHub,
-GitLab, Jira, Asana, Azure Boards, ClickUp — 555 passing tests, three
-runtime dependencies.
+testing it. 37 verbs, 70 typed MCP tools, eight tracker backends — GitHub,
+GitLab, Jira, Asana, Azure Boards, ClickUp, Linear, and a zero-credential
+local tracker that lives in your repo — 698 passing tests, three runtime
+dependencies.
 
 The name is the point. A cairn is a stack of stones that marks the trail for
 whoever comes next — including future you, who has forgotten everything…
@@ -65,6 +66,21 @@ pluggable, so Notion, GitBook, Slite, and SharePoint can follow behind the
 same contract; and yes, the feature's first live run published cairn's own
 43-page doc tree.
 
+**No tracker? No problem — start local, graduate later.** The built-in
+local backend stores issues as plain files in your repo: no accounts, no
+credentials, merge-clean by construction, and a real dependency graph —
+typed links between issues, a ready-to-work frontier, priority that
+inherits through blocking chains (a P3 blocking a P1 *is* a P1). When the
+team grows, `tracker_migrate` promotes the whole store to Jira, GitHub, or
+any other backend in one command — history, comments, links, and estimates
+carried over with provenance backlinks.
+
+**Your sprint reports stop being empty.** On Jira scrum boards, cairn
+detects the board, drops new issues into the active sprint, and populates
+story points + original time estimates at planning time — then logs real
+worklogs at close. Burndown, velocity, and estimate-vs-actual work with
+data cairn wrote, not fields a human forgot to fill.
+
 **Your PM edits an issue; cairn notices.** `plan_tracker_delta` diffs the
 live tracker against a cursor: new issues, edited bodies, state changes made
 outside the session. `/cairn:resync` ingests them instead of discovering
@@ -102,7 +118,10 @@ is good at its job, and the footnotes carry the nuance.
 | Capability | cairn | GSD | beads | context-mode |
 |---|---|---|---|---|
 | Phase planning with research depth control | ✓ | ✓ | — | — |
-| Tracker mirroring — six backends, both directions | ✓ | partial¹ | partial² | — |
+| Tracker mirroring — eight backends, both directions | ✓ | partial¹ | partial² | — |
+| Zero-dependency local tracker with dependency graph | ✓ | — | ✓ | — |
+| Local → hosted promotion (full history migration) | ✓ | — | — | — |
+| Sprint + estimate population (real burndown data) | ✓ | — | — | — |
 | Comment + worklog paper trail on issues | ✓ | — | —³ | — |
 | Inbound PM-delta ingest (tracker edits flow back) | ✓ | — | — | — |
 | Memory with provenance + staleness flags | ✓ | — | — | partial⁴ |
@@ -154,7 +173,8 @@ own trackers:
   ([#1150](https://github.com/gastownhall/beads/issues/1150), closed *not
   planned*) and more backends by name
   ([Linear](https://github.com/gastownhall/beads/discussions/453), the
-  category's top-voted idea). Cairn: six adapters behind one interface.
+  category's top-voted idea). Cairn: eight adapters behind one interface —
+  Linear included, with native issue links.
 - Work-time tracking
   ([#965](https://github.com/gastownhall/beads/issues/965), closed *not
   planned*). Cairn: time logged on every close, real worklogs where the
