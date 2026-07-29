@@ -3,7 +3,7 @@ title = "Cairn"
 date = 2026-07-24T00:00:00Z
 draft = false
 tags = ["claude-code", "agentic-tooling", "project-management", "developer-tooling"]
-summary = "A Claude Code plugin that plans your project, mirrors every piece of work to your real issue tracker, remembers what it learned, and verifies what it shipped — one verb set instead of a stack of point tools."
+summary = "An agent project brain that plans your project, mirrors every piece of work to your real issue tracker, remembers what it learned, and verifies what it shipped — born a Claude Code plugin, now running on Grok, Copilot, Codex, Gemini, Cursor, OpenCode, and Zed too."
 repo = "https://github.com/eventually-consistent-code/cairn2"
 
 [cover]
@@ -25,8 +25,10 @@ tracker, memory that survives the session, and a verification gate that
 refuses to call something done because closing the issue was easier than
 testing it. 37 verbs, 71 typed MCP tools, eight tracker backends — GitHub,
 GitLab, Jira, Asana, Azure Boards, ClickUp, Linear, and a zero-credential
-local tracker that lives in your repo — 728 passing tests, three runtime
-dependencies.
+local tracker that lives in your repo — 744 passing tests, three runtime
+dependencies. And as of this week it's no longer Claude-only: one installer
+wires the same brain into Grok Build, Copilot CLI, Codex, Gemini CLI,
+Cursor, OpenCode, and Zed.
 
 The name is the point. A cairn is a stack of stones that marks the trail for
 whoever comes next — including future you, who has forgotten everything…
@@ -139,6 +141,34 @@ outbound leak guard. Engineer mode turns the agent into a pairing partner —
 it stops at genuine design forks, hands you the trade-offs, and never merges
 its own PRs.
 
+## Runs everywhere your agent does
+
+Why should a project brain care which agent is driving? It shouldn't — and
+that's the architecture doing the work, not a porting marathon. Cairn's
+server speaks plain MCP over stdio, and every verb is a markdown
+subroutine any capable agent can read and follow. So the "port" to a new
+harness is three thin layers: point the harness's MCP config at the
+server, install the generated `AGENTS.md` verb registry, and add a slash
+surface where the harness has one.
+
+One installer does all three:
+
+```
+node setup/cairn-setup.mjs grok      # or copilot, codex, gemini,
+                                     # cursor, opencode, zed
+```
+
+Copilot gets `/cairn-*` prompt files, Codex gets prompts plus a managed
+`config.toml` block, Gemini gets `/cairn:*` TOML commands with the exact
+Claude Code spelling, and Cursor gets the part nobody else has tried: a
+real port of the hook layer. One adapter translates Cursor's hook events
+into the shape cairn's hook scripts already speak — so continuity resume,
+the commit leak guard, and observation capture all work in Cursor,
+unchanged. The honest footnote: the cost tracker stays Claude Code-only
+(it reads Claude's transcript format for token counts), and that's
+documented per-harness rather than hand-waved. The tracker paper trail
+doesn't care which model wrote it…
+
 ## The matrix
 
 The honest version, not the checkbox-farming version — each of these tools
@@ -160,6 +190,7 @@ is good at its job, and the footnotes carry the nuance.
 | Multi-project workspaces | ✓ | ⁶ | — | — |
 | Persistent debug/spike/design sessions | ✓ | — | — | — |
 | Docs publishing to the team wiki (Confluence) | ✓⁸ | — | — | — |
+| Runs beyond Claude Code (7 more harnesses) | ✓ | — | — | — |
 | Context-window economy | — | — | — | ✓⁷ |
 
 ¹ GSD shipped one-way GitHub sync after sustained user demand
