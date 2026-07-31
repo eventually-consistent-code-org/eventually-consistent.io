@@ -116,10 +116,76 @@ a:hover { color: var(--aqua-blue-dk); }
   transform: translateY(-1px);
 }
 
-/* ---- Buttons / pagination: glossy gel lozenge ---- */
+/* ---- Buttons / pagination: Aqua gel, ported from tailor ----
+   Gel body with a bright bottom bulge, floating gloss cap on the top
+   curve, drop-shadow lift, glow on hover. Tags + inline code keep the
+   quiet light lozenge so prose doesn't shout. */
 .pagination a,
 .button,
-button,
+.top-link,
+.post-content .copy-code,
+button {
+  position: relative;
+  overflow: hidden;
+  color: #ffffff;
+  background:
+    radial-gradient(120% 160% at 50% 118%,
+      rgba(140, 220, 255, 0.75) 0%, rgba(140, 220, 255, 0) 45%),
+    linear-gradient(#8cc2f5 0%, #4a94e4 45%, #1e6fd0 50%,
+                    #1a5fb4 82%, #3d87dd 100%);
+  border: 1px solid rgba(10, 55, 110, 0.85);
+  border-radius: 999px;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.65),
+    inset 0 -1px 2px rgba(120, 200, 255, 0.5),
+    0 2px 5px rgba(20, 60, 110, 0.45),
+    0 1px 0 rgba(255, 255, 255, 0.7);
+  text-shadow: 0 -1px 1px rgba(0, 30, 70, 0.55);
+  transition: filter .15s ease, box-shadow .15s ease;
+}
+.pagination a::before,
+.button::before,
+.top-link::before,
+.post-content .copy-code::before,
+button::before {
+  content: "";
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 2px;
+  height: 46%;
+  border-radius: 999px 999px 40% 40% / 999px 999px 60% 60%;
+  background: linear-gradient(rgba(255, 255, 255, 0.95),
+                              rgba(255, 255, 255, 0.35) 70%,
+                              rgba(255, 255, 255, 0.05));
+  opacity: 0.85;
+  pointer-events: none;
+}
+.pagination a:hover,
+.button:hover,
+.top-link:hover,
+.post-content .copy-code:hover,
+button:hover {
+  color: #ffffff;
+  filter: brightness(1.1) saturate(1.2);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.65),
+    inset 0 -1px 2px rgba(120, 200, 255, 0.5),
+    0 3px 8px rgba(20, 60, 110, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.7),
+    0 0 10px rgba(80, 160, 240, 0.55);
+}
+.pagination a:active,
+.button:active,
+.top-link:active,
+.post-content .copy-code:active,
+button:active {
+  filter: brightness(0.9);
+  box-shadow:
+    inset 0 3px 6px rgba(0, 30, 70, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
 code.noClass,
 .post-tags a {
   background: linear-gradient(#fdfeff, #d4e3f4);
@@ -129,8 +195,7 @@ code.noClass,
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 1px 1px rgba(0,0,0,0.12);
   text-shadow: 0 1px 0 rgba(255,255,255,0.7);
 }
-.post-tags a:hover,
-.pagination a:hover {
+.post-tags a:hover {
   background: linear-gradient(#6fb2f0, #1e6fd0);
   color: #fff;
   border-color: #1a5fb4;
@@ -234,3 +299,5 @@ code.noClass,
 @media (prefers-reduced-motion: reduce) {
   .ec-hero-sphere, .ec-hero::before { animation: none; }
 }
+
+.top-link svg { stroke: #ffffff; filter: drop-shadow(0 -1px 1px rgba(0,30,70,0.5)); }
