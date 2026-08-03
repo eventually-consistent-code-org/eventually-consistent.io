@@ -7,7 +7,7 @@ summary = "A simple, self-hostable OKR tracker for small teams — spreadsheet-s
 repo = "https://github.com/eventually-consistent-code/okrdokey"
 +++
 
-Ever notice how OKRs die in a spreadsheet? Somebody sets up a beautiful grid at the start of the quarter, everyone nods, and then nobody touches it again until the retro when you're all scrambling to remember what "green" was even supposed to mean. That's the thing OKRDoKey is built to beat — not the giant enterprise OKR platforms, but the Google Sheet nobody updates.
+Here's the OKR failure mode nobody wants to name. Somebody sets up a beautiful grid at the start of the quarter, everyone nods, and then nobody touches it again until the retro when you're all scrambling to remember what "green" was even supposed to mean. That's the thing OKRDoKey is built to beat — not the giant enterprise OKR platforms, but the Google Sheet nobody updates.
 
 So here's what it does. You write objectives, hang measurable key results off them (numeric, percent-complete, or done/not-done — and yeah, decreasing-is-good works too), and the scores roll up on their own: key-result progress into an objective score into a cycle dashboard. Every check-in carries a red/yellow/green confidence read, and whether an objective is on-track, at-risk, or behind gets computed from progress against time elapsed — never hand-picked to make the slide look better. Quarterly cycles fill in their own dates, and when the quarter ends one click closes it out and carries the unfinished work forward with fresh baselines. Trends and history rebuild themselves from your check-ins, so you get score-over-time charts without any extra data entry.
 

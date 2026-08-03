@@ -7,9 +7,9 @@ summary = "Paste a job description, get a resume and cover letter tailored to it
 repo = "https://github.com/eventually-consistent-code/tailor"
 +++
 
-Ever notice how AI-written resumes all sound the same? Same buzzwords, same
-"results-driven professional," same faint smell of a chatbot that never met
-you. Tailor is the antidote. You paste in a job description, and it hands back
+You can spot an AI-written resume in about four words — usually "results-driven
+professional." Same buzzwords every time, same faint smell of a chatbot that
+never met you. Tailor is the antidote. You paste in a job description, and it hands back
 a resume and cover letter tuned to that job — grounded in *your* actual
 experience, and written in *your* voice, not a model's default one.
 

@@ -7,9 +7,9 @@ summary = "Multi-cloud tag compliance and storage cost analysis in one container
 repo = "https://github.com/eventually-consistent-code/TagManager"
 +++
 
-Ever tried to figure out who owns a mystery EC2 instance at 2am, only to find
-its tags are empty — or worse, wrong? That's the whole reason TagManager
-exists. Cloud tags are how you answer "what is this, who owns it, what
+It's 2am, something's on fire, and the one EC2 instance at the center of it has
+no owner tag — or worse, a wrong one that sends you chasing the wrong team.
+That's the whole reason TagManager exists. Cloud tags are how you answer "what is this, who owns it, what
 environment is it in" — but tags only do that if they're actually there and
 actually consistent, and in a real account they drift the second you look away…
 
