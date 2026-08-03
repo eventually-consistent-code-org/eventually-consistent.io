@@ -47,7 +47,11 @@ Who's it for? Cloud and platform teams drowning in tribal knowledge — the folk
 who inherited three clouds' worth of resources nobody documented, need tag
 governance that's visible instead of folklore, and would also like to stop
 paying to store data that hasn't been touched since 2022. Run `docker compose
-up`, point your team at the dashboard, and make the drift visible. Built with
-Nick Bitzer.
+up`, point your team at the dashboard, and make the drift visible.
 
 The code is public: [github.com/eventually-consistent-code/TagManager](https://github.com/eventually-consistent-code/TagManager).
+
+I first wrote this script with a colleague, Nick Bitzer, who showed me the ropes
+on Python and has been a trusted friend and advisor ever since. Check him out on
+[LinkedIn](https://www.linkedin.com/in/nick-bitzer) and
+[GitHub](https://github.com/nbitzer/nbitzer).
