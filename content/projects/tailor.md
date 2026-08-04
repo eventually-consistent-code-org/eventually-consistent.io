@@ -5,7 +5,14 @@ draft = false
 tags = ["python", "flask", "aws", "ai", "careers"]
 summary = "Paste a job description, get a resume and cover letter tailored to it — grounded in your real experience, written in your voice, nothing invented."
 repo = "https://github.com/eventually-consistent-code/tailor"
+images = ["img/tailor-icon.jpg"]   # square mark — social-share / og:image
 +++
+
+<p style="text-align:center; margin:0 0 2rem;">
+  <img src="/img/tailor-logo.jpg" width="220"
+       style="max-width:60%; height:auto;"
+       alt="Tailor logo — a blue glass tile with a serif T stitched through by a needle and thread, above the wordmark tailor">
+</p>
 
 You can spot an AI-written resume in about four words — usually "results-driven
 professional." Same buzzwords every time, same faint smell of a chatbot that
