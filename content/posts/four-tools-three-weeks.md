@@ -1,7 +1,7 @@
 +++
 title = "Four Tools in Three Weeks: What Building With AI Actually Looked Like"
 date = 2026-08-04T00:00:00Z
-draft = true
+draft = false
 tags = ["ai", "claude-code", "agentic-tooling", "cairn", "tooling", "workflow", "meta"]
 summary = "Four real products — a multi-cloud tag and storage tool, a resume tailor, an OKR tracker, and the planning system underneath all of it — built and shipped in about three weeks. What made it fast, what I got wrong, and what AI still can't do for you."
 +++
