@@ -117,7 +117,7 @@ ClickUp, Azure, or local), and a verification gate refuses to call anything done
 without evidence. It runs across Claude Code, Cursor, Codex, Gemini CLI, Copilot
 CLI, Zed, OpenCode, and Grok.
 
-Everything below — every number, every decision I'm about to quote — came out of
+Everything in this post — every number, every decision I quote — came out of
 cairn's artifacts. That's not a coincidence. It's the argument.
 
 → [project page](/projects/cairn/) ·
