@@ -19,4 +19,6 @@ The other half of the point is owning it. OKRDoKey is one Docker container and o
 
 Who's it for? Small teams — startups, side ventures, an engineering group inside a bigger company, anybody homelabbing their own stack — who want the discipline of OKRs without handing their strategy over to somebody else's SaaS. If you can run `docker compose up`, you can run this.
 
+And the name? That's the whole idea — when the board finally goes all green, it's OKRDoKey.
+
 The code is public: [github.com/eventually-consistent-code/okrdokey](https://github.com/eventually-consistent-code/okrdokey).
