@@ -3,7 +3,6 @@ title = "The Country That Was Built to Invent: America at 250"
 date = 2026-07-04T00:00:00Z
 draft = false
 tags = ["essay", "history", "innovation", "america"]
-flashNew = true   # home-list gold "New!" badge + pulse; cleared a week after publish
 summary = "Two hundred fifty years ago we didn't just declare independence, we shipped a system designed to protect the raw materials of invention. From the Patent Act of 1790 to fusion ignition in a Livermore lab, here's why American technology keeps compounding, and the founders' quiet genius that made it possible."
 +++
 

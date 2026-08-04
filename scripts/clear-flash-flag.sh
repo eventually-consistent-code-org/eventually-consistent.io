@@ -17,14 +17,22 @@ set -euo pipefail
 REPO="/Users/jsreed/repos/eventually-consistent.io"
 cd "$REPO"
 
-# Default targets: every post that can currently be flashing.
+# Default targets: whatever is actually flashing right now. This used to be a
+# hardcoded pair of filenames, which silently did nothing the moment a newer
+# post carried the flag — the 2026-07-04 post kept its "New!" badge for a month
+# because it was never on the list. Find the flags instead of naming them.
 if [ "$#" -gt 0 ]; then
   POSTS=("$@")
 else
-  POSTS=(
-    "$REPO/content/posts/wiring-gsd-and-beads.md"
-    "$REPO/content/posts/containers-a-means-to-an-end.md"
-  )
+  POSTS=()
+  while IFS= read -r p; do
+    POSTS+=("$p")
+  done < <(grep -rlE '^flash(Updated|New)[[:space:]]*=' "$REPO/content/posts" --include='*.md' | sort)
+fi
+
+if [ "${#POSTS[@]}" -eq 0 ]; then
+  echo "no flash flags found... nothing to do."
+  exit 0
 fi
 
 changed=()
