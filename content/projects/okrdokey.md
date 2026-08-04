@@ -5,7 +5,14 @@ draft = false
 tags = [ "typescript", "self-hosted", "okr-tracking", "ai", "docker" ]
 summary = "A simple, self-hostable OKR tracker for small teams — spreadsheet-simple, one container, your data, with optional AI that coaches your key results instead of writing them for you."
 repo = "https://github.com/eventually-consistent-code/okrdokey"
+images = ["img/okrdokey-icon.jpg"]   # square mark — social-share / og:image
 +++
+
+<p style="text-align:center; margin:0 0 2rem;">
+  <img src="/img/okrdokey-logo.jpg" width="300"
+       style="max-width:80%; height:auto;"
+       alt="OKRDoKey logo — a glass key with a glowing green checkmark, the wordmark OKRDoKey, and the tagline “all green = okdokey”">
+</p>
 
 OKRDoKey started with a conversation. A friend and old colleague and I were catching up the other day, and he got onto how much of a pain OKRs and KPIs are to actually run — not the idea, the tooling. Every big platform out there is overkill: dashboards stacked on dashboards, endless config, and somewhere under all of it the one thing OKRs were meant to do — keep a team pointed at a few measurable outcomes — gets buried. So they're miserable to manage, people quietly stop updating them, and the whole practice rots. I figured I'd try to solve that.
 
