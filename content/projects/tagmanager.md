@@ -5,7 +5,14 @@ draft = false
 tags = ["python", "multi-cloud", "aws", "finops", "cloud-governance"]
 summary = "Multi-cloud tag compliance and storage cost analysis in one container — scan AWS, Azure, and GCP, catch the tags that are missing or wrong, and see what stale data is costing you."
 repo = "https://github.com/eventually-consistent-code/TagManager"
+images = ["img/tagmanager-icon.jpg"]   # square mark — social-share / og:image
 +++
+
+<p style="text-align:center; margin:0 0 2rem;">
+  <img src="/img/tagmanager-logo.jpg" width="300"
+       style="max-width:80%; height:auto;"
+       alt="TagManager logo — a glass amber app tile holding a luggage-style price tag, beside the wordmark TagManager">
+</p>
 
 It's 2am, something's on fire, and the one EC2 instance at the center of it has
 no owner tag — or worse, a wrong one that sends you chasing the wrong team.
