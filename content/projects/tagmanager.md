@@ -38,10 +38,31 @@ something about it.
 Here's the part I care about most: there's no black box. The recommendations
 are signal-driven and deterministic — thresholds, request rates, access
 patterns from CloudTrail and S3 access logs, data-type awareness — not a model
-guessing. Every number traces back to something it measured, which matters when
-you're about to tell finance you can cut a storage bill or about to delete data
-someone might still need. Explainable beats magic when real money and real data
-are on the line.
+guessing. Every one carries a confidence label (high / medium / low) and names
+the evidence behind it, so a recommendation backed by real request-rate
+telemetry doesn't read the same as one inferred from age alone. Every number
+traces back to something it measured, which matters when you're about to tell
+finance you can cut a storage bill or about to delete data someone might still
+need. Explainable beats magic when real money and real data are on the line.
+
+The newest piece is the dry-run diff, and it's the one I'd want most if I were
+running this against a bucket that matters. Before anything gets applied, it
+reads your bucket's live lifecycle and tiering config and shows you, rule by
+rule, what an apply *would* do: what gets added, what changes, what's already
+fine — and, loudly, what would be removed. That last one is the trap. S3
+replaces a bucket's entire rule set when you apply a lifecycle config, so any
+live rule you didn't generate gets silently dropped. TagManager tells you which
+ones instead of letting you find out later. It writes nothing at all — the read
+path is guarded by a test that asserts it never calls a mutating API — and if
+it can't read a config, it says "no permission," never "no config." Can't-see
+and nothing-there are not the same answer, and a tool that conflates them will
+eventually lie to you at the worst possible moment…
+
+All of it runs the same two ways: `docker compose up` for the web app —
+configure scan targets, launch scans, watch them run, read the cost and savings
+pages, download generated artifacts as a zip — or the CLI, shipping in the same
+image, doing the same work with no web server involved. 281 tests green behind
+it.
 
 Who's it for? Cloud and platform teams drowning in tribal knowledge — the folks
 who inherited three clouds' worth of resources nobody documented, need tag
