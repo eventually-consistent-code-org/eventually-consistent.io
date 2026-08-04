@@ -26,7 +26,7 @@ can quote it back to you:
 
 | Project | Built | Days | Commits | Where it landed |
 |---|---|---|---|---|
-| **cairn** | Jul 12 – Jul 31 | 20 | 442 | 555 tests at the v2 archive, more since |
+| **cairn** | Jul 12 – Jul 31 | 20 | 442 | 744 tests, 65 server tools, 8 harnesses |
 | **OKRDoKey** | Jul 30 – Jul 31 | 2 | 112 | 3 milestones, 272 tests + 4 e2e |
 | **TagManager** | Jul 29 – Aug 4 | 7 | 129 | 4 milestones, 281 tests |
 | **tailor** | Jul 29 – Aug 4 | 7 | 66 | Live on the internet, taking payments |
