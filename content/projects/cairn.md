@@ -23,9 +23,9 @@ Cairn fixes that. It's a Claude Code plugin that gives an agent what a real
 project needs: a plan that lives in git, work items that live in your actual
 tracker, memory that survives the session, and a verification gate that
 refuses to call something done because closing the issue was easier than
-testing it. 37 verbs, 71 typed MCP tools, eight tracker backends — GitHub,
+testing it. 39 verbs, 79 typed MCP tools, eight tracker backends — GitHub,
 GitLab, Jira, Asana, Azure Boards, ClickUp, Linear, and a zero-credential
-local tracker that lives in your repo — 744 passing tests, three runtime
+local tracker that lives in your repo — 1,117 passing tests, three runtime
 dependencies. And as of this week it's no longer Claude-only: one installer
 wires the same brain into Grok Build, Copilot CLI, Codex, Gemini CLI,
 Cursor, OpenCode, and Zed.
@@ -172,7 +172,10 @@ doesn't care which model wrote it…
 ## The matrix
 
 The honest version, not the checkbox-farming version — each of these tools
-is good at its job, and the footnotes carry the nuance.
+is good at its job, and the footnotes carry the nuance. (This table is a
+July snapshot; the maintained, mechanism-level version — with a
+last-verified date on every competitor claim — now lives in the repo:
+[docs/comparison.md](https://github.com/eventually-consistent-code/cairn2/blob/main/docs/comparison.md).)
 
 | Capability | cairn | GSD | beads | context-mode |
 |---|---|---|---|---|
