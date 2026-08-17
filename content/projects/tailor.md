@@ -1,7 +1,9 @@
 +++
 title = "Tailor"
 date = 2026-08-03T00:00:00Z
+lastmod = 2026-08-17T00:00:00Z
 draft = false
+flashUpdated = true
 tags = ["python", "flask", "aws", "ai", "careers"]
 summary = "Paste a job description, get a resume and cover letter tailored to it — grounded in your real experience, written in your voice, nothing invented."
 repo = "https://github.com/eventually-consistent-code/tailor"
@@ -10,8 +12,8 @@ images = ["img/tailor-icon.jpg"]   # square mark — social-share / og:image
 
 <p style="text-align:center; margin:0 0 2rem;">
   <img src="/img/tailor-logo.jpg" width="220"
-       style="max-width:60%; height:auto;"
-       alt="Tailor logo — a blue glass tile with a serif T stitched through by a needle and thread, above the wordmark tailor">
+       style="max-width:60%; height:auto; border-radius:18px;"
+       alt="Tailor logo — a purple gel tile with a serif T formed by a needle and thread, above the wordmark TAILOR">
 </p>
 
 You can spot an AI-written resume in about four words — usually "results-driven
@@ -40,7 +42,24 @@ my resume by hand for every application. Over the last stretch it grew up into a
 real multi-user web app — a Flask backend with Postgres, Clerk for sign-in,
 Stripe for a fair trial-then-pay model, Claude doing the tailoring under prompt
 caching to keep per-run cost sane, python-docx exporting a clean `.docx`, all of
-it running on AWS behind Terraform. It's live.
+it running on AWS behind Terraform. It's live at
+[tailor.eventually-consistent.io](https://tailor.eventually-consistent.io).
+
+And it keeps growing. The latest round of updates, roughly in the order
+you'll notice them:
+
+- **A whole new look.** Dark obsidian glass, a gel-purple design language,
+  and an animated needle-and-thread background — five fine threads drifting
+  behind every page. (It respects `prefers-reduced-motion`, because subtle
+  should mean subtle.)
+- **Resume + cover letter in one pass.** A "Both at once" switch runs the
+  pair back-to-back from the same job description, each with its own
+  preview, steering, and export.
+- **Multiple master resumes.** Keep one per career track — the infra one,
+  the security one — and pick which to tailor from per run.
+- **Google Docs, both directions.** Import your resume straight from Drive,
+  export the finished document back as a native Doc.
+- **PDF export** alongside `.docx`, from the same preview.
 
 Who's it for? Anyone tired of the resume treadmill — job switchers,
 career-changers, anyone applying to more than one place and unwilling to send
