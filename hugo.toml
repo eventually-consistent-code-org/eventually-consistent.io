@@ -1,11 +1,10 @@
-baseURL = "https://www.eventually-consistent.io/"
+baseURL = "https://eventually-consistent.io/"
 languageCode = "en-us"
 title = "Eventually Consistent"
 theme = "PaperMod"
 
-# Custom domain: when DNS for eventually-consistent.io points at GitHub Pages,
-# set baseURL = "https://eventually-consistent.io/" and add a static/CNAME file
-# containing that hostname. The CI build overrides baseURL with the Pages URL
+# Custom domain: static/CNAME pins the apex (eventually-consistent.io) as the
+# Pages custom domain. The CI build overrides baseURL with the Pages URL
 # automatically, so this value only matters for local `hugo serve`.
 
 enableRobotsTXT = true
