@@ -31,18 +31,18 @@ From any Claude Code session:
 /plugin install cairn@cairn-dev
 ```
 
-Then build the MCP server the plugin launches. This is the one honest
-speed bump: cairn's server is TypeScript with a native SQLite dependency,
-so it needs Node 20+ and one build:
+Then restart Claude Code so the MCP server connects. There's no build
+step: the server's `dist/` is committed to the repo and the plugin
+installer pulls its four runtime dependencies (including the native
+SQLite binding) for your machine. You do need Node 20+ on the path —
+that's the one prerequisite.
 
-```bash
-cd ~/.claude/plugins/cache/cairn*/server   # wherever the plugin landed
-npm ci && npm run build
-```
-
-Why: the plugin's `.mcp.json` starts `server/dist/index.js`, and `dist/`
-only exists after the build. `npm ci` also compiles better-sqlite3's native
-bindings for your machine. Do it once, forget it.
+Why it used to be harder: earlier releases shipped source only, so the
+plugin's `.mcp.json` pointed at a `server/dist/index.js` that didn't exist
+until you built it. Committing `dist/` and gating its freshness in CI
+closed that whole class of dead-install bugs. If you ever see the server
+fail on a missing native binding after a Node upgrade, the error names the
+exact rebuild command — run it once, forget it.
 
 ## Step 2 — tell cairn where your tracker lives
 
