@@ -1,0 +1,15 @@
+# dev.to comment reply (follow-up) — Edward Izgorodin, "How do I give my LLM workflow persistent context across independent client connections?"
+# https://dev.to/izgorodin/how-do-i-give-my-llm-workflow-persistent-context-across-independent-client-connections-51e6
+# Replying to his answer to our project-keyed vs account-keyed question (comment-3hn82). Posting is John's click.
+
+Two for two, and the first one is embarrassing in the useful way…
+
+I checked every repo on this machine that has a card store. Five of them, four commit every card, and the one that doesn't is cairn itself, the public one, with fifty-seven cards that have never been anywhere but this laptop, exactly as you read it off the gitignore. Every doc we ship says cards are git-committed and the `remember` verb even tells the user they ship with the repo, and nothing checks it, the only gitignore check we have is for the local tracker store. So the fix going in is that the server says it: card stats carry tracked, ignored and unpushed counts from git, the write result says "this card is gitignored here and will not leave this machine" when that's true, and the memory audit raises it. Whether I un-ignore cairn's own cards is a separate call, that's publishing fifty-seven files, but at least the tool will stop letting me not know.
+
+Your reading of rule 3 as commit-and-push is already how the trust order works, I just hadn't said it that way. The handoff is a disposable cache in the home directory, and the resume path ranks tracker plus git log above the ledger above the handoff, so the thing that counts as written on another box is the tracker comment and the pushed commit, never the local file. What was missing is the server telling you when a card hasn't made that crossing yet, which is the same fix as above.
+
+On the account key, I think you've got the split right, and it moves a decision in a phase I'm about to build. The axioms I pulled out of the six-article read went into my global Claude rules, which is to say one machine and one harness, and the Codex seat on this same box reviews code without them. The phase that writes cairn's axioms into the architecture doc now also renders them into the generated harness spine, the same AGENTS.md fragment every CLI already reads from the checkout, so they travel with the repo and a drift check keeps the copy honest. That's the project key doing the project's job. What stays in a home directory, my own preferences, voice, cross-project habits, is mine and the harness vendor's, and cairn has a decision record saying it is not a persona store, so I'd rather it never grew a second account-keyed layer, it would just be a worse copy of yours…
+
+One question back, since your account is a team account in the example: when the 06:00 job writes a conclusion under project:support and a person at 10:00 disagrees with it, whose write wins, and does the store know the difference between what one connection established and what the team has accepted? That's the line I keep tripping over with a shared tracker, a comment from the agent and a comment from a human look identical until you check the author…
+
+-John Reed
