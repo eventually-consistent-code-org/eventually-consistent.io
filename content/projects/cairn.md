@@ -1,7 +1,7 @@
 +++
 title = "Cairn"
 date = 2026-07-24T00:00:00Z
-lastmod = 2026-10-12T00:00:00Z
+lastmod = 2026-10-14T00:00:00Z
 draft = false
 flashUpdated = true
 tags = ["claude-code", "agentic-tooling", "project-management", "developer-tooling"]
@@ -30,12 +30,16 @@ you need once an agent is doing real work — a review panel where findings
 have to survive refutation before they're filed, a headless mode that runs
 whole phases inside a token budget you set, and a set of guards that turn
 "the agent quietly did something it shouldn't have" into a one-line refusal
-you can see.
+you can see. And lately it has started doing the opposite of growing: the
+current phase deletes every mechanism the platform now owns, and the
+resident-context budget gets re-pinned *down* each time.
 
-The numbers, as of v2.8.3: 39 verbs, 87 typed MCP tools, eight tracker
-backends — GitHub, GitLab, Jira, Asana, Azure Boards, ClickUp, Linear, and a
-zero-credential local tracker that lives in your repo — two docs connectors
-(Confluence, Docusaurus), eight harnesses, 2,124 passing tests, four runtime
+The numbers, as of v2.8.3 with main a dozen commits ahead: 39 verbs, 87
+typed MCP tools (every one now annotated read-only, mutating, or
+destructive), eight tracker backends — GitHub, GitLab, Jira, Asana, Azure
+Boards, ClickUp, Linear, and a zero-credential local tracker that lives in
+your repo — two docs connectors (Confluence, Docusaurus), eight harnesses,
+2,130 passing tests on main (2,124 at the v2.8.3 cut), four runtime
 dependencies, 21 architecture decision records. Every one of those counts is
 recomputed from the live registry in CI, because a tool whose pitch is
 "claims that check out" had better keep its own claims honest…
@@ -77,8 +81,10 @@ right one.
 ## What that looks like in practice
 
 **Your tracker gets a paper trail, not a paste-dump.** When cairn works an
-issue, the issue shows it: a claim comment stamped "Starting now" with the
-base commit, progress notes at real milestones, and a close comment with the
+issue, the issue shows it: a claim comment with the base commit, wave, and
+the verify command quoted back (composed by the server from a typed block
+since #343, so a misworded first line can no longer drop the measurement a
+rung), progress notes at real milestones, and a close comment with the
 commit range, typed test evidence, and time spent. That duration is
 *measured*, not asked for — the server reads the claim timestamp and the
 close, falls back to the first-to-last commit span, and names which rung of
@@ -140,7 +146,11 @@ variants on a shared theme), and `thread` (long-running context) survive
 `/clear` the same way. Kill the session mid-task — compaction, usage cap, a
 real crash — and the next one resumes at the exact task with zero re-executed
 work; the tracker and `git log` outrank the ledger, which outranks the
-handoff, so a stale checkpoint can never win an argument with reality.
+handoff, so a stale checkpoint can never win an argument with reality. And
+it knows when to shut up: since Claude Code started restoring conversations
+itself after compaction, `/resume`, and a fork, the SessionStart hook reads
+the payload's `source` and speaks only on a real startup or `/clear`. A
+session that already holds its task gets no banner, no nudge, nothing.
 
 **Verification walks backwards from the goal — and findings have to
 survive.** `/cairn:verify` asks whether the codebase delivers what the phase
@@ -148,8 +158,10 @@ promised, not whether the tasks closed. `/cairn:review` runs a five-axis
 panel — correctness, clarity, architecture, security, tests — where the
 seats are data, not prompts: a Zod-validated schema with a rubric, an
 anchored 0–10 scale, and a required injection dose. Signals in the diff pick
-which seats convene; one finding set comes out no matter how many seats
-raised it. Then the refutation panel: every critical or important finding
+which seats convene — that's the default now, with the full five-seat panel
+as the opt-in, because the cheap path was already the reliable one — and one
+finding set comes out no matter how many seats raised it. Then the
+refutation panel: every critical or important finding
 carries a typed failure scenario and faces votes of CONFIRMED, PLAUSIBLE, or
 REFUTED, tallied in code. A refuted majority kills the finding (it stays in
 the record with its votes, never filed), ties survive as plausible, and a
@@ -159,6 +171,21 @@ security surface check, tests, docs, plans, simplify, memory — collapses
 duplicates, and classifies each survivor against the previous sweep as new,
 persisting, fixed, or regressed. A reworded finding is still the same
 finding.
+
+**And the panel has now been tested against its own sunset clause.** The
+decision record that justifies the review seats says they should fold the
+day the platform's native review matches them, and Claude Code 2.1.299
+ships `/code-review`, so the test ran: eleven items with known defects, a
+clean control among them, both arms scored by the same judge. Native
+`/code-review` at its widest setting matched the panel on recall — it named
+the real defect at its file on every item — and lost on precision, 27%
+against the panel's 100%, because it also raised efficiency notes on
+untouched code and hypotheticals as numbered findings and the judge failed
+it for that. The native call costs about a quarter as much per review,
+which is the number any future delegation argues from. Single-run,
+judge-scored, stated as a proxy, and written into the ADR either way. The
+clause stands unmet; the fairer rerun at the native default finding limit
+is filed.
 
 **It runs itself, inside a boundary you set.** `/cairn:auto --batch` stages
 a headless run: pick the phases (or name a budget and let the estimator
@@ -230,6 +257,25 @@ dispatch board. Engineer mode turns the agent into a pairing partner: it
 stops at genuine design forks, hands you the trade-offs, and never merges its
 own PRs.
 
+**It deletes what the platform learned to do.** Every harness component in
+cairn carries a `removeWhen:` clause, and the current phase, "the
+subtraction," is the first one spent mostly honoring them. The pre-compaction
+refresh hook is gone, because the handoff is written through on every
+state-changing call and the platform survives compaction on its own now.
+The native-Tasks tracker mirror is gone, because Claude Code ships those
+tools default-off and the events it listened for never arrived; the
+validated design is kept in a skill with a note on what would bring it
+back. The cost tracker prices models by generation instead of by family
+name (Opus 5.5 was reading 3.75× high), and a model id it cannot place
+counts its tokens and names itself as unpriced rather than borrowing a
+row. Three free dials got taken without new surface: an effort level per
+work class on every dispatch, compaction windows on the long-running design
+and UAT agents, and a written rule against the workflow-model override. And
+all 87 tools now carry MCP annotations, so every harness's permission layer
+sees 36 read-only tools and knows which of the rest actually delete
+something, instead of 87 undifferentiated names. Surface count flat
+throughout. Resident footprint re-pinned down three times.
+
 ## Runs everywhere your agent does
 
 Why should a project brain care which agent is driving? It shouldn't — and
@@ -277,7 +323,7 @@ Eight tracker adapters sit behind one SPI with per-backend capability flags
 (declare, don't flatten), write-through with cached reads, a shared HTTP
 core with retry and backoff, and one contract test suite every adapter must
 pass. Config carries only the *names* of environment variables; a value that
-looks like a credential makes the loader throw. The hooks are nine
+looks like a credential makes the loader throw. The hooks are eight
 dependency-free Node scripts in three kinds — recorders (invisible by
 construction, any error is a silent no-op), refusers (one plain line naming
 the file and the deliberate way forward, failing open), and advisers (the
@@ -291,9 +337,12 @@ pins, version surfaces, diagram labels, committed `dist/`, behavioural eval
 verdicts, or the resident context footprint drift. That last one deserves a
 sentence: cairn measures what it costs to have installed — every command
 description, skill description, and tool schema resident in your context —
-and pins it to a budget. Today's reading is 13,775 estimated tokens against
-a 13,784 budget, and the budget is re-pinned to each corrected reading,
-never loosened by a fix. Every decision record, server gate, and hook also
+and pins it to a budget. Today's reading is 13,108 estimated tokens against
+a 13,145 budget — down from 13,775 at the v2.8.3 cut, because the budget is
+re-pinned to each corrected reading, never loosened by a fix, and the
+subtraction phase has been correcting it downward. The tool annotations
+above cost zero of it: only name, description, and input schema reach the
+model, so the check measures annotations out. Every decision record, server gate, and hook also
 states its `removeWhen:` — what the model or platform would have to do for
 the mechanism to become unnecessary. Harness components exist because the
 model can't do something yet. Writing the expiry down keeps that honest.
@@ -315,6 +364,35 @@ model can't do something yet. Writing the expiry down keeps that honest.
 - A context-economy experiment — halving average context by compacting far
   earlier — was run and killed because ordinary work became unworkable. The
   predicted saving is withdrawn and nothing should cite it.
+- The native-Tasks mirror the comparison page used to claim is retired, not
+  shipped. The platform's task tools are default-off; a mirror of events that
+  never fire is a mechanism that cannot be tested.
+
+## What's next
+
+Milestone v9 is on the roadmap, and most of it was filed on one night in
+October from other people's dev.to posts, checked line by line against the
+tree before anything got written down. Phase 26 (the-subtraction) is the
+deletion work above. Phase 26.5 seats GitHub Copilot CLI as a fifth,
+model-pinned harness on the peers council, with exit codes recorded,
+tracker credentials dropped from every seat's environment, and convergence
+counted by distinct lab. Phase 27 (the-ux-seat) adds a `ux` review seat and
+a "render, don't describe" floor for the UI audit, integrating an upstream
+design skill by reference and never by vendoring, because the footprint
+cushion is 37 tokens. Phase 28 (the-constitution) replaces the run guard's
+seventeen-issue header with a short set of axioms that classify what counts
+as what, every guard deriving from a named clause, plus a server-side
+re-run of the owner-declared verify line and a circuit breaker for headless
+runs. Phase 29 (the-parallel-path) makes two agents on one repo hold
+without the human remembering five rules: per-worktree versus
+per-repository state decided by what the state is about, a union merge
+driver for the ledger, untracked files in every review, stash refusing its
+destructive half when more than one worktree exists. Phase 30
+(the-second-hardening) lands first, because the other two build on it:
+append-only logs that rotate by rename, worktree setup derived from the
+repo instead of typed, and git hooks under the harness guard. The story of
+where those came from is its own
+[post](/posts/the-community-is-the-design-review/).
 
 ## The comparison, maintained
 
