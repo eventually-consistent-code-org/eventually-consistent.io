@@ -16,8 +16,24 @@ paginate = 10
   disableXML = true
   minifyOutput = true
 
+[outputFormats]
+  # /llms.txt (llmstxt.org) — a curated plain-text map of the site for AI agents.
+  # Rendered by layouts/home.llms.txt.
+  [outputFormats.llms]
+    mediaType = "text/plain"
+    baseName = "llms"
+    isPlainText = true
+    notAlternative = true
+  # /llms-full.txt — every page's full text in one file, for agents that want
+  # it all in one read. Rendered by layouts/home.llmsfull.txt.
+  [outputFormats.llmsfull]
+    mediaType = "text/plain"
+    baseName = "llms-full"
+    isPlainText = true
+    notAlternative = true
+
 [outputs]
-  home = ["HTML", "RSS", "JSON"]   # JSON enables PaperMod search
+  home = ["HTML", "RSS", "JSON", "llms", "llmsfull"]   # JSON enables PaperMod search
 
 [params]
   env = "production"

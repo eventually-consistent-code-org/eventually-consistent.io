@@ -1,0 +1,28 @@
+{{- /*
+  /llms.txt — the llmstxt.org convention: a short, curated, plain-text map of
+  the site for AI agents. H1, one blockquote summary, then sections of
+  "- [name](url): description" links. Overrides PaperMod's bare list so each
+  entry carries a summary and a date, and the author/full-text pointers are up top.
+*/ -}}
+# {{ site.Title }}
+
+> {{ site.Params.description | plainify | htmlUnescape }}
+
+Written by {{ site.Params.author }}{{ with site.Params.schema.person }}, {{ .jobTitle }}. {{ .description }}{{ end }}
+Author profile: {{ with site.GetPage "/about" }}{{ .Permalink }}{{ else }}{{ "about/" | absURL }}{{ end }}
+Full text of every page: {{ "llms-full.txt" | absURL }} (plain text) · {{ "index.json" | absURL }} (JSON) · {{ "index.xml" | absURL }} (RSS)
+Source for the open-source projects: {{ range site.Params.schema.sameAs }}{{ . }} {{ end }}
+
+## Posts
+{{ range (where site.RegularPages "Section" "posts").ByDate.Reverse }}
+- [{{ .Title | plainify }}]({{ .Permalink }}): {{ (.Description | default .Summary) | plainify | htmlUnescape }} ({{ .Date.Format "2006-01-02" }})
+{{- end }}
+
+## Projects
+{{ range (where site.RegularPages "Section" "projects").ByTitle }}
+- [{{ .Title | plainify }}]({{ .Permalink }}): {{ (.Description | default .Summary) | plainify | htmlUnescape }}{{ with .Params.repo }} — source: {{ . }}{{ end }}
+{{- end }}
+
+## Optional
+- [Tags]({{ "tags/" | absURL }}): every post, grouped by topic
+- [Archive]({{ "archives/" | absURL }}): every post, by year

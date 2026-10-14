@@ -1,0 +1,28 @@
+{{- /*
+  /llms-full.txt — the companion to /llms.txt: the full plain text of every
+  real page (posts, projects, about) in one file — the Markdown source, so code
+  blocks survive — for agents that would rather read once than crawl. Skips the
+  search and archive utility pages.
+*/ -}}
+# {{ site.Title }} — full text
+
+> {{ site.Params.description | plainify | htmlUnescape }}
+> Index: {{ "llms.txt" | absURL }} · Author: {{ site.Params.author }}
+{{ range (where site.RegularPages "Layout" "not in" (slice "search" "archives")).ByDate.Reverse }}
+
+---
+
+# {{ .Title | plainify }}
+
+URL: {{ .Permalink }}
+{{- with .Params.repo }}
+Source: {{ . }}{{ end }}
+{{- if not .Date.IsZero }}
+Published: {{ .Date.Format "2006-01-02" }}{{ end }}
+{{- if and (not .Lastmod.IsZero) (ne .Lastmod .Date) }}
+Updated: {{ .Lastmod.Format "2006-01-02" }}{{ end }}
+{{- with .Params.tags }}
+Tags: {{ delimit . ", " }}{{ end }}
+
+{{ .RawContent }}
+{{- end }}
