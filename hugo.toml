@@ -45,6 +45,19 @@ paginate = 10
     icon = "img/logo-sphere.png"
     iconHeight = 26
 
+  # Structured data (JSON-LD). One-person blog, so the publisher is a Person,
+  # not an Organization — and sameAs is what lets an AI agent or search engine
+  # tie "John Reed, eventually-consistent.io" to the same John Reed elsewhere.
+  # Rendered by layouts/_partials/templates/schema_json.html (overrides PaperMod).
+  [params.schema]
+    publisherType = "Person"
+    sameAs = ["https://github.com/eventually-consistent-code"]
+    [params.schema.person]
+      jobTitle = "Cloud Architect & Site Reliability Engineer"
+      description = "28 years in tech: SysAdmin to cloud architecture and SRE, ex-AWS TAM, FinOps and compliance-driven Terraform. Now building with blockchain, zero-knowledge cryptography, and agentic tooling."
+      image = "/img/me.jpg"
+      knowsAbout = ["cryptography", "zero-knowledge proofs", "blockchain", "distributed systems", "site reliability engineering", "infrastructure as code", "Terraform", "AWS", "Azure", "FinOps", "Claude Code", "AI-assisted development", "DevOps"]
+
   [params.homeInfoParams]
     Title = "Eventually Consistent"
     Content = """

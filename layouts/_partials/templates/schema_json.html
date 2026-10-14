@@ -1,0 +1,93 @@
+{{- /*
+  Structured data (JSON-LD) for every page.
+
+  Overrides PaperMod's templates/schema_json.html so the author is a real,
+  linked Person entity instead of a bare name. Who gets what:
+
+    home        -> WebSite + Person graph (one @id for the author, reused everywhere)
+    about       -> ProfilePage whose mainEntity is that Person
+    projects/   -> SoftwareSourceCode pointing at the repo (or .Params.schemaType)
+    posts       -> BlogPosting (or .Params.schemaType) with the Person as author + publisher
+    breadcrumbs -> unchanged from upstream
+
+  Everything is built as Hugo dicts and run through jsonify, so the escaping
+  is never hand-rolled and a stray quote in a title can't break the page.
+*/ -}}
+
+{{- /* The author entity. Lives at /about/#person and is referenced by @id elsewhere. */ -}}
+{{- $aboutURL := printf "%sabout/" site.Home.Permalink -}}
+{{- with site.GetPage "/about" }}{{ $aboutURL = .Permalink }}{{ end -}}
+{{- $personID := printf "%s#person" $aboutURL -}}
+{{- $websiteID := printf "%s#website" site.Home.Permalink -}}
+{{- $sameAs := site.Params.schema.sameAs | default (slice) -}}
+{{- $person := dict "@type" "Person" "@id" $personID "name" (site.Params.author | default site.Title) "url" $aboutURL "sameAs" $sameAs -}}
+{{- with site.Params.schema.person -}}
+  {{- with .jobTitle }}{{ $person = merge $person (dict "jobTitle" .) }}{{ end -}}
+  {{- with .description }}{{ $person = merge $person (dict "description" .) }}{{ end -}}
+  {{- with .knowsAbout }}{{ $person = merge $person (dict "knowsAbout" .) }}{{ end -}}
+  {{- with .image }}{{ $person = merge $person (dict "image" (absURL .)) }}{{ end -}}
+{{- end -}}
+{{- /* Short reference form — enough for author/publisher without repeating the bio. */ -}}
+{{- $personRef := dict "@type" "Person" "@id" $personID "name" $person.name "url" $aboutURL -}}
+
+{{- /* Page image: explicit cover first, then whatever PaperMod would pick for og:image. */ -}}
+{{- $img := "" -}}
+{{- if .Params.cover.image -}}
+  {{- if ne .Params.cover.relative true }}{{ $img = absURL .Params.cover.image }}{{ else }}{{ $img = absURL (path.Join .RelPermalink .Params.cover.image) }}{{ end -}}
+{{- else -}}
+  {{- with partial "templates/_funcs/get-page-images" . }}{{ with index . 0 }}{{ $img = .Permalink }}{{ end }}{{ end -}}
+{{- end -}}
+
+{{- /* Dates — omitted when Hugo has nothing real (the About page has no date). */ -}}
+{{- $pub := "" }}{{ if not .PublishDate.IsZero }}{{ $pub = .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}{{ end -}}
+{{- $mod := "" }}{{ if not .Lastmod.IsZero }}{{ $mod = .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}{{ end -}}
+
+{{- if .IsHome -}}
+{{- $website := dict "@type" "WebSite" "@id" $websiteID "name" site.Title "url" site.Home.Permalink "description" (site.Params.description | plainify) "inLanguage" site.Language.Lang "author" (dict "@id" $personID) "publisher" (dict "@id" $personID) -}}
+{{- $graph := dict "@context" "https://schema.org" "@graph" (slice $website $person) -}}
+<script type="application/ld+json">{{ $graph | jsonify | safeJS }}</script>
+
+{{- else if (or .IsPage .IsSection) -}}
+{{- /* BreadcrumbList — as upstream PaperMod. */ -}}
+{{- $url := replace .Parent.Permalink ( printf "%s" site.Home.Permalink) "" }}
+{{- $lang_url := strings.TrimPrefix ( printf "%s/" .Lang) $url }}
+{{- $bc_list := (split $lang_url "/")}}
+{{- $scratch := newScratch }}
+{{- $crumbs := slice -}}
+{{- range $index, $element := $bc_list }}
+  {{- $scratch.Add "path" (printf "%s/" $element ) }}
+  {{- $bc_pg := site.GetPage ($scratch.Get "path") -}}
+  {{- if (and ($bc_pg) (gt (len . ) 0)) }}
+    {{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" (add 1 $index) "name" $bc_pg.Name "item" $bc_pg.Permalink) -}}
+  {{- end }}
+{{- end }}
+{{- $crumbs = $crumbs | append (dict "@type" "ListItem" "position" (len $bc_list) "name" .Name "item" .Permalink) -}}
+<script type="application/ld+json">{{ dict "@context" "https://schema.org" "@type" "BreadcrumbList" "itemListElement" $crumbs | jsonify | safeJS }}</script>
+
+{{- if .IsPage -}}
+{{- $desc := (.Description | default .Summary) | plainify | htmlUnescape -}}
+{{- $keywords := .Params.keywords | default .Params.tags | default (slice) -}}
+{{- $schema := dict -}}
+
+{{- if eq .Params.schemaType "ProfilePage" -}}
+{{- /* The About page IS the author. mainEntity carries the full bio-level Person. */ -}}
+{{- $schema = dict "@context" "https://schema.org" "@type" "ProfilePage" "@id" .Permalink "url" .Permalink "name" .Title "description" $desc "inLanguage" .Language.Lang "isPartOf" (dict "@id" $websiteID) "mainEntity" $person -}}
+
+{{- else if and (eq .Section "projects") .Params.repo (not .Params.schemaType) -}}
+{{- /* A project page with a repo is source code, not a blog post. */ -}}
+{{- $schema = dict "@context" "https://schema.org" "@type" "SoftwareSourceCode" "@id" .Permalink "url" .Permalink "name" .Title "description" $desc "keywords" $keywords "codeRepository" .Params.repo "inLanguage" .Language.Lang "author" $personRef "maintainer" $personRef "isPartOf" (dict "@id" $websiteID) -}}
+{{- with .Params.programmingLanguage }}{{ $schema = merge $schema (dict "programmingLanguage" .) }}{{ end -}}
+
+{{- else -}}
+{{- /* Posts (and anything else): BlogPosting unless the page says otherwise, e.g. TechArticle. */ -}}
+{{- $type := .Params.schemaType | default "BlogPosting" -}}
+{{- $schema = dict "@context" "https://schema.org" "@type" $type "@id" .Permalink "url" .Permalink "headline" (.Title | plainify) "name" (.Title | plainify) "description" $desc "keywords" $keywords "articleBody" (.Plain | htmlUnescape) "wordCount" .WordCount "inLanguage" .Language.Lang "author" $personRef "publisher" $personRef "mainEntityOfPage" (dict "@type" "WebPage" "@id" .Permalink) "isPartOf" (dict "@id" $websiteID) -}}
+{{- end -}}
+
+{{- with $img }}{{ $schema = merge $schema (dict "image" .) }}{{ end -}}
+{{- with $pub }}{{ $schema = merge $schema (dict "datePublished" .) }}{{ end -}}
+{{- with $mod }}{{ $schema = merge $schema (dict "dateModified" .) }}{{ end -}}
+<script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
+{{- end }}{{/* .IsPage end */}}
+
+{{- end -}}
