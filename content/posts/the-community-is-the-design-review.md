@@ -1,7 +1,7 @@
 +++
 title = "The Community Is the Design Review: Six Articles, Four Phases, One Night"
 date = 2026-10-14T00:00:00Z
-draft = true
+draft = false
 tags = ["cairn", "claude-code", "agentic-tooling", "community", "open-source", "ai", "meta"]
 summary = "One evening on dev.to turned into four new phases on cairn's roadmap, three new global rules on my machine, and four issues shipped the same week. The mechanism was reading other people's write-ups as bug reports against my own code. Here's the loop, the receipts, and the people to thank."
 +++
