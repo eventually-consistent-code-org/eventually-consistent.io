@@ -2,6 +2,10 @@
 title = "About"
 url = "/about/"
 summary = "about"
+description = "Who writes Eventually Consistent: John Reed — 28 years from SysAdmin to cloud architect and SRE, ex-AWS TAM, now building agentic tooling, zero-knowledge cryptography, and compliance-driven Terraform."
+keywords = ["John Reed", "cloud architect", "site reliability engineering", "AWS", "Terraform", "zero-knowledge cryptography", "agentic tooling", "Claude Code"]
+# Structured data: this page IS the author — render as ProfilePage, not BlogPosting.
+schemaType = "ProfilePage"
 ShowReadingTime = false
 ShowWordCount = false
 +++

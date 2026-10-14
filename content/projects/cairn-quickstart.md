@@ -2,6 +2,8 @@
 title = "Cairn Quick-Start"
 date = 2026-07-24T00:00:00Z
 draft = false
+# Structured data: a tutorial, not the source itself — TechArticle instead of SoftwareSourceCode.
+schemaType = "TechArticle"
 tags = ["claude-code", "agentic-tooling", "tutorial", "developer-tooling"]
 summary = "Zero to a tracker-mirrored project in about fifteen minutes — install cairn, wire up your issue tracker (including every step that happens outside Claude), and run your first phase."
 repo = "https://github.com/eventually-consistent-code/cairn2"
