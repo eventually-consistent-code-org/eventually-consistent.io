@@ -1,0 +1,16 @@
+/* TEAM */
+  Author: John Reed
+  Role: writes everything here — cloud architect & site reliability engineer,
+        28 years from racking servers to agentic tooling
+  Site: https://eventually-consistent.io/
+  GitHub: https://github.com/eventually-consistent-code
+  About: https://eventually-consistent.io/about/
+
+/* SITE */
+  Built with: Hugo + PaperMod, deployed to GitHub Pages
+  Analytics: GoatCounter (cookieless)
+  Machine-readable: /llms.txt, /llms-full.txt, /index.json, /index.xml, /sitemap.xml
+  Standards: HTML5, CSS3, JSON-LD (schema.org), RFC 9116 security.txt
+
+  The name is a distributed-systems joke and a posture: opinions here
+  converge over time...

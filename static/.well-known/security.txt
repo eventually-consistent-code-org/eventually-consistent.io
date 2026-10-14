@@ -1,0 +1,7 @@
+# security.txt for eventually-consistent.io (RFC 9116)
+# Found a problem with the site or one of the open-source projects? Open a
+# private report on the relevant GitHub repo, or reach out via the profile.
+Contact: https://github.com/eventually-consistent-code
+Expires: 2027-10-01T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://eventually-consistent.io/.well-known/security.txt
