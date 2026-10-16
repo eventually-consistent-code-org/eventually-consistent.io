@@ -21,15 +21,28 @@ defaults:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, little-ci]
     env:
       HUGO_VERSION: 0.163.3
     steps:
+      # Little-CI runners are arm64 and the runner user has no sudo, so the
+      # release tarball goes into runner.temp and onto PATH instead of a
+      # dpkg install. The arch switch keeps this working on GitHub-hosted too.
       - name: Install Hugo CLI
         run: |
-          wget -O ${{ runner.temp }}/hugo.deb \
-            https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb
-          sudo dpkg -i ${{ runner.temp }}/hugo.deb
+          set -euo pipefail
+          case "$(uname -m)" in
+            aarch64) hugo_arch=arm64 ;;
+            x86_64) hugo_arch=amd64 ;;
+            *) echo "unsupported architecture: $(uname -m)" >&2; exit 1 ;;
+          esac
+          echo "installing hugo ${HUGO_VERSION} for ${hugo_arch}..."
+          mkdir -p "${RUNNER_TEMP}/bin"
+          curl -fsSL -o "${RUNNER_TEMP}/hugo.tar.gz" \
+            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-${hugo_arch}.tar.gz"
+          tar -xzf "${RUNNER_TEMP}/hugo.tar.gz" -C "${RUNNER_TEMP}/bin" hugo
+          echo "${RUNNER_TEMP}/bin" >> "$GITHUB_PATH"
+          "${RUNNER_TEMP}/bin/hugo" version
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -55,7 +68,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, little-ci]
     needs: build
     steps:
       - name: Deploy to GitHub Pages
